@@ -1,0 +1,2564 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Piv'stillerie — Le Soleil Revient... On Sort le Pastis !</title>
+
+  <!-- Polices rétro Art Déco & Provençales via Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Limelight&family=Lora:ital,wght@0,500;0,700;1,500;1,700&family=Montserrat:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sunGold: '#F5C542',
+            medBlue: '#163E59',
+            seaBlue: '#23648E',
+            terracotta: '#D95D39',
+            paperCream: '#FDF6E3',
+            paperWarm: '#F4E7C8',
+            oliveGreen: '#5C7A32',
+            inkDark: '#1A1A1A',
+          },
+          fontFamily: {
+            deco: ['"Limelight"', 'Georgia', 'serif'],
+            oswald: ['"Oswald"', 'Arial Narrow', 'sans-serif'],
+            lora: ['"Lora"', 'Georgia', 'serif'],
+            sans: ['"Montserrat"', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* Texture papier chaud vieilli */
+    body {
+      background-color: #FDF6E3;
+      color: #1A1A1A;
+      background-image:
+        radial-gradient(rgba(22, 62, 89, 0.045) 1px, transparent 0),
+        radial-gradient(rgba(217, 93, 57, 0.035) 1px, transparent 0);
+      background-size: 22px 22px;
+      background-position: 0 0, 11px 11px;
+      overflow-x: hidden;
+    }
+
+    /* Motif rayures marinières subtiles */
+    .mariniere-stripe {
+      background-image: repeating-linear-gradient(
+        180deg,
+        #FDF6E3 0px,
+        #FDF6E3 6px,
+        #163E59 6px,
+        #163E59 10px
+      );
+    }
+
+    .mariniere-thin {
+      background-image: repeating-linear-gradient(
+        90deg,
+        #163E59 0px,
+        #163E59 14px,
+        #FDF6E3 14px,
+        #FDF6E3 28px
+      );
+    }
+
+    /* Cadres Art Déco double filet et ombres nettes */
+    .deco-card {
+      border: 3px solid #163E59;
+      box-shadow: 6px 6px 0 #163E59;
+      position: relative;
+    }
+
+    .deco-card-sm {
+      border: 2.5px solid #163E59;
+      box-shadow: 4px 4px 0 #163E59;
+    }
+
+    .deco-inner-frame {
+      border: 1.5px solid rgba(22, 62, 89, 0.35);
+    }
+
+    /* Boutons rétro tactiles */
+    .retro-btn {
+      border: 2.5px solid #1A1A1A;
+      box-shadow: 4px 4px 0 #1A1A1A;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
+    }
+    .retro-btn:hover {
+      transform: translate(-1.5px, -1.5px);
+      box-shadow: 5.5px 5.5px 0 #1A1A1A;
+    }
+    .retro-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1.5px 1.5px 0 #1A1A1A;
+    }
+
+    /* Tampon vintage incliné */
+    .vintage-stamp {
+      border: 3.5px double currentColor;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      transform: rotate(-4deg);
+    }
+
+    /* Titre Art Déco ombré */
+    .deco-title-shadow {
+      text-shadow: 3px 3px 0 #163E59;
+    }
+    .deco-title-gold {
+      text-shadow: 2.5px 2.5px 0 #1A1A1A;
+    }
+
+    /* Onglet actif */
+    .nav-tab.active-tab {
+      background-color: #F5C542;
+      color: #163E59;
+      border-color: #1A1A1A;
+      box-shadow: 3px 3px 0 #1A1A1A;
+      transform: translate(-1px, -1px);
+    }
+
+    /* Transition des panneaux d'onglets */
+    .tab-panel {
+      display: none;
+      animation: fadeUp 0.25s ease-out;
+    }
+    .tab-panel.active {
+      display: block;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Animation tampon modale */
+    @keyframes stampDrop {
+      0% { transform: scale(1.9) rotate(-14deg); opacity: 0; }
+      75% { transform: scale(0.95) rotate(-4deg); opacity: 1; }
+      100% { transform: scale(1) rotate(-4deg); opacity: 1; }
+    }
+    .stamp-drop {
+      animation: stampDrop 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    /* Curseurs personnalisés pour le doseur */
+    input[type="range"].pastis-range {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 12px;
+      border-radius: 9999px;
+      border: 2px solid #163E59;
+      background: #F4E7C8;
+      outline: none;
+    }
+    input[type="range"].pastis-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #D95D39;
+      border: 2.5px solid #1A1A1A;
+      cursor: pointer;
+      box-shadow: 2px 2px 0 #1A1A1A;
+    }
+    input[type="range"].pastis-range::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #D95D39;
+      border: 2.5px solid #1A1A1A;
+      cursor: pointer;
+      box-shadow: 2px 2px 0 #1A1A1A;
+    }
+
+    /* Animation douce des glaçons dans le verre */
+    @keyframes iceBob {
+      0%, 100% { transform: translateY(0px) rotate(var(--rot, 0deg)); }
+      50% { transform: translateY(-3px) rotate(calc(var(--rot, 0deg) + 4deg)); }
+    }
+    .ice-cube-bob {
+      animation: iceBob 2.6s ease-in-out infinite;
+    }
+
+    /* Canvas responsive sans scroll accidentel sur tactile */
+    .game-canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col selection:bg-sunGold selection:text-medBlue">
+
+  <!-- ==================== BANDEAU MARINIÈRE SUPÉRIEUR ==================== -->
+  <div class="h-3 w-full mariniere-thin border-b-2 border-inkDark"></div>
+  <div class="bg-medBlue text-paperCream text-xs sm:text-sm py-1.5 px-4 border-b-2 border-inkDark">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <span class="font-oswald uppercase tracking-widest text-sunGold">
+        ☀ Maison Fondée Un Jour de Canicule à 11h58 • Cuvée Officielle © Viv' la Pive
+      </span>
+      <span class="font-lora italic text-paperCream/90">
+        « L'anis étoilé, le soleil et la mauvaise foi du Sud »
+      </span>
+    </div>
+  </div>
+
+  <!-- ==================== EN-TÊTE & NAVIGATION FIXE ==================== -->
+  <header class="sticky top-0 z-40 bg-paperCream/95 backdrop-blur-sm border-b-4 border-medBlue shadow-sm">
+    <div class="max-w-6xl mx-auto px-3 sm:px-6 py-3">
+      <!-- Ligne Marque + Bouton Panier -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+        <button onclick="switchTab('maison')" class="flex items-center gap-3 text-left group focus:outline-none">
+          <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-medBlue deco-card-sm flex items-center justify-center shrink-0 group-hover:rotate-3 transition-transform">
+            <!-- Icône Soleil & Verre Art Déco -->
+            <svg viewBox="0 0 48 48" class="w-10 h-10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="19" fill="#F5C542" stroke="#1A1A1A" stroke-width="2"/>
+              <path d="M16 14 H32 L29 36 C28.8 38 27.2 39 25.5 39 H22.5 C20.8 39 19.2 38 19 36 Z" fill="#FDF6E3" stroke="#163E59" stroke-width="2.5"/>
+              <path d="M17.8 23 H30.2 L28.8 35.5 C28.6 36.8 27.6 37.5 26 37.5 H22 C20.4 37.5 19.4 36.8 19.2 35.5 Z" fill="#E8B931"/>
+              <circle cx="24" cy="11" r="2.2" fill="#D95D39"/>
+            </svg>
+          </div>
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="font-deco text-2xl sm:text-3xl md:text-4xl text-medBlue leading-none tracking-wide">
+                LA PIV'STILLERIE
+              </span>
+              <span class="inline-block bg-terracotta text-paperCream font-oswald font-bold text-[10px] sm:text-xs uppercase px-2 py-0.5 rounded border-2 border-inkDark">
+                © Viv' la Pive
+              </span>
+            </div>
+            <p class="font-lora italic text-xs sm:text-sm text-seaBlue font-semibold">
+              Distillerie Artisanale de Soleil & d'Anis Étoilé
+            </p>
+          </div>
+        </button>
+
+        <!-- Bouton Panier -->
+        <button
+          onclick="toggleCart(true)"
+          class="retro-btn bg-sunGold hover:bg-amber-300 text-medBlue font-oswald font-bold uppercase text-sm sm:text-base px-4 py-2 rounded-xl flex items-center gap-2"
+          aria-label="Ouvrir le panier"
+        >
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span class="hidden sm:inline">Réserve</span>
+          <span id="cart-badge" class="bg-terracotta text-paperCream text-xs font-bold px-2 py-0.5 rounded-full border-2 border-inkDark min-w-[24px] text-center">
+            0
+          </span>
+        </button>
+      </div>
+
+      <!-- Barre de 5 onglets -->
+      <nav aria-label="Navigation principale" class="flex flex-wrap items-center gap-2">
+        <button onclick="switchTab('maison')" data-tab="maison" class="nav-tab active-tab font-oswald font-bold uppercase text-xs sm:text-sm px-3.5 py-2 rounded-lg border-2 border-medBlue bg-paperWarm text-medBlue hover:bg-sunGold transition-all">
+          1. La Maison
+        </button>
+        <button onclick="switchTab('doseur')" data-tab="doseur" class="nav-tab font-oswald font-bold uppercase text-xs sm:text-sm px-3.5 py-2 rounded-lg border-2 border-medBlue bg-paperWarm text-medBlue hover:bg-sunGold transition-all">
+          2. Le Doseur Parfait
+        </button>
+        <button onclick="switchTab('petanque')" data-tab="petanque" class="nav-tab font-oswald font-bold uppercase text-xs sm:text-sm px-3.5 py-2 rounded-lg border-2 border-medBlue bg-paperWarm text-medBlue hover:bg-sunGold transition-all">
+          3. Pétanque du Port
+        </button>
+        <button onclick="switchTab('apero-rush')" data-tab="apero-rush" class="nav-tab font-oswald font-bold uppercase text-xs sm:text-sm px-3.5 py-2 rounded-lg border-2 border-medBlue bg-paperWarm text-medBlue hover:bg-sunGold transition-all">
+          4. Apéro Rush
+        </button>
+        <button onclick="switchTab('boutique')" data-tab="boutique" class="nav-tab font-oswald font-bold uppercase text-xs sm:text-sm px-3.5 py-2 rounded-lg border-2 border-medBlue bg-paperWarm text-medBlue hover:bg-sunGold transition-all">
+          5. La Boutique
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ==================== CONTENU PRINCIPAL ==================== -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-6 py-6 sm:py-10">
+
+    <!-- ========================================================== -->
+    <!-- ONGLET 1 : LA MAISON (ACCUEIL)                             -->
+    <!-- ========================================================== -->
+    <section id="tab-maison" class="tab-panel active space-y-8 sm:space-y-10">
+
+      <!-- BANDEAU HÉROÏQUE ART DÉCO -->
+      <div class="deco-card bg-sunGold/90 rounded-2xl p-4 sm:p-8 overflow-hidden relative">
+        <div class="deco-inner-frame rounded-xl p-4 sm:p-6 bg-paperCream/90 relative">
+          <!-- Tampon officiel incliné -->
+          <div class="hidden md:block absolute top-4 right-4 vintage-stamp text-terracotta bg-paperCream px-3 py-1 rounded-lg font-oswald font-bold text-xs z-10">
+            Cuvée Officielle © Viv' la Pive
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
+            <!-- Texte Héroïque -->
+            <div class="lg:col-span-6 space-y-4">
+              <div class="inline-flex items-center gap-2 bg-medBlue text-sunGold font-oswald font-bold uppercase text-xs sm:text-sm px-3.5 py-1 rounded-full border-2 border-inkDark">
+                <span>★ Édition Méditerranéenne • 45° de Soleil ★</span>
+              </div>
+
+              <h1 class="font-deco text-4xl sm:text-5xl lg:text-6xl leading-[1.02] text-medBlue">
+                LA PIV'STILLERIE
+              </h1>
+              <p class="font-oswald font-bold uppercase text-xl sm:text-2xl text-terracotta tracking-wider">
+                LE SOLEIL REVIENT... ON SORT LE PASTIS !
+              </p>
+
+              <p class="font-lora italic text-base sm:text-lg text-inkDark/90 leading-relaxed">
+                Depuis ce midi légendaire où le thermomètre a dépassé les 30°C sur le Vieux-Port, <strong>La Piv'stillerie</strong> distille la convivialité pure : de l'anis étoilé, un brin de réglisse, et la certitude absolue que « c'est l'heure quelque part ».
+              </p>
+
+              <div class="flex flex-wrap gap-3 pt-2">
+                <button onclick="switchTab('doseur')" class="retro-btn bg-medBlue hover:bg-seaBlue text-paperCream font-oswald font-bold uppercase text-sm sm:text-base px-5 py-3 rounded-xl">
+                  🥃 Préparer mon Pastis
+                </button>
+                <button onclick="switchTab('petanque')" class="retro-btn bg-terracotta hover:bg-orange-600 text-paperCream font-oswald font-bold uppercase text-sm sm:text-base px-5 py-3 rounded-xl">
+                  ⚪ Jouer à la Pétanque
+                </button>
+              </div>
+            </div>
+
+            <!-- Emplacement Image pub-pastis.jpg + Fallback SVG Art Déco -->
+            <div class="lg:col-span-6">
+              <div class="deco-card-sm bg-paperWarm p-2.5 rounded-2xl rotate-1 hover:rotate-0 transition-transform duration-300">
+                <div class="rounded-xl overflow-hidden border-2 border-medBlue bg-sunGold/30">
+                  <img
+                    src="pub-pastis.jpg"
+                    alt="Affiche publicitaire rétro La Piv'stillerie — On sort le Pastis"
+                    class="w-full h-auto object-cover block"
+                    onerror="handleImageFallback(this, 'fallback-pastis-pub')"
+                  />
+                  <!-- Fallback SVG Rétro Méditerranéen très soigné -->
+                  <div id="fallback-pastis-pub" class="hidden w-full">
+                    <svg viewBox="0 0 600 380" class="w-full h-auto block" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration rétro méditerranéenne La Piv'stillerie">
+                      <defs>
+                        <linearGradient id="skySunset" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stop-color="#F5C542"/>
+                          <stop offset="55%" stop-color="#F29B38"/>
+                          <stop offset="100%" stop-color="#D95D39"/>
+                        </linearGradient>
+                        <linearGradient id="seaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stop-color="#23648E"/>
+                          <stop offset="100%" stop-color="#163E59"/>
+                        </linearGradient>
+                      </defs>
+
+                      <!-- Ciel coucher de soleil + rayons Art Déco -->
+                      <rect width="600" height="230" fill="url(#skySunset)"/>
+                      <g fill="#FDF6E3" opacity="0.22">
+                        <polygon points="180,195 0,0 75,0"/>
+                        <polygon points="180,195 145,0 215,0"/>
+                        <polygon points="180,195 295,0 375,0"/>
+                        <polygon points="180,195 470,0 560,0"/>
+                      </g>
+                      <!-- Grand soleil doré -->
+                      <circle cx="180" cy="188" r="64" fill="#FDF6E3" stroke="#163E59" stroke-width="3"/>
+                      <circle cx="180" cy="188" r="52" fill="#F5C542"/>
+
+                      <!-- Mer Méditerranée -->
+                      <rect x="0" y="195" width="600" height="85" fill="url(#seaGrad)" stroke="#163E59" stroke-width="3"/>
+                      <!-- Reflet doré sur l'eau -->
+                      <g fill="#F5C542" opacity="0.85">
+                        <rect x="135" y="205" width="90" height="5" rx="2"/>
+                        <rect x="148" y="217" width="64" height="5" rx="2"/>
+                        <rect x="160" y="229" width="40" height="4" rx="2"/>
+                      </g>
+
+                      <!-- Pont transbordeur rétro au fond -->
+                      <g stroke="#163E59" stroke-width="3.5" fill="none">
+                        <path d="M55 195 L72 62 L89 195"/>
+                        <path d="M270 195 L287 62 L304 195"/>
+                        <line x1="40" y1="112" x2="320" y2="112" stroke-width="4.5"/>
+                        <path d="M72 62 Q180 118 287 62" stroke-width="2.5"/>
+                        <line x1="125" y1="88" x2="125" y2="112" stroke-width="2"/>
+                        <line x1="180" y1="92" x2="180" y2="112" stroke-width="2"/>
+                        <line x1="235" y1="88" x2="235" y2="112" stroke-width="2"/>
+                      </g>
+
+                      <!-- Phare & Fort du Port à droite -->
+                      <path d="M475 195 V140 H520 V155 H570 V195 Z" fill="#D95D39" stroke="#163E59" stroke-width="3"/>
+                      <rect x="530" y="102" width="18" height="53" fill="#FDF6E3" stroke="#163E59" stroke-width="3"/>
+                      <polygon points="527,102 551,102 539,86" fill="#163E59"/>
+
+                      <!-- Table de terrasse en bois doré -->
+                      <polygon points="0,262 600,262 600,380 0,380" fill="#FDF6E3" stroke="#163E59" stroke-width="4"/>
+                      <line x1="0" y1="274" x2="600" y2="274" stroke="#D95D39" stroke-width="3"/>
+
+                      <!-- Siphon d'eau de Seltz vintage (à gauche) -->
+                      <g transform="translate(56, 154)">
+                        <rect x="18" y="34" width="60" height="106" rx="22" fill="#DCEFF8" stroke="#163E59" stroke-width="3.5"/>
+                        <rect x="24" y="68" width="48" height="66" rx="14" fill="#9BD0EA" opacity="0.7"/>
+                        <line x1="48" y1="36" x2="48" y2="132" stroke="#163E59" stroke-width="2.5"/>
+                        <rect x="34" y="14" width="28" height="22" rx="4" fill="#B8C7CE" stroke="#163E59" stroke-width="3"/>
+                        <path d="M62 20 L86 28 L82 36 L62 28 Z" fill="#B8C7CE" stroke="#163E59" stroke-width="2.5"/>
+                        <path d="M34 18 L18 6 L24 2 L40 14 Z" fill="#163E59"/>
+                      </g>
+
+                      <!-- Bol d'olives vertes & étoiles de badiane -->
+                      <g transform="translate(170, 268)">
+                        <path d="M8 28 Q50 72 92 28 Z" fill="#163E59" stroke="#1A1A1A" stroke-width="3"/>
+                        <ellipse cx="32" cy="24" rx="12" ry="9" fill="#5C7A32" stroke="#1A1A1A" stroke-width="2"/>
+                        <ellipse cx="52" cy="20" rx="12" ry="9" fill="#6F923D" stroke="#1A1A1A" stroke-width="2"/>
+                        <ellipse cx="70" cy="25" rx="11" ry="8.5" fill="#5C7A32" stroke="#1A1A1A" stroke-width="2"/>
+                        <ellipse cx="44" cy="30" rx="11" ry="8" fill="#7CA345" stroke="#1A1A1A" stroke-width="2"/>
+                        <circle cx="55" cy="18" r="2.5" fill="#D95D39"/>
+                      </g>
+                      <!-- Anis étoilé -->
+                      <g transform="translate(292, 316)" fill="#8B4513" stroke="#1A1A1A" stroke-width="2">
+                        <polygon points="0,-16 4,-4 16,-4 6,4 10,16 0,8 -10,16 -6,4 -16,-4 -4,-4"/>
+                        <circle cx="0" cy="0" r="3.5" fill="#F5C542"/>
+                      </g>
+
+                      <!-- Grand Verre de Pastis lumineux (centre-droit) -->
+                      <g transform="translate(335, 165)">
+                        <path d="M12 10 H96 L84 146 C83 156 75 162 64 162 H44 C33 162 25 156 24 146 Z" fill="#FDF6E3" fill-opacity="0.88" stroke="#163E59" stroke-width="4"/>
+                        <path d="M18 52 H90 L81 142 C80 150 74 155 64 155 H44 C34 155 28 150 27 142 Z" fill="#F5C542" opacity="0.92"/>
+                        <!-- Glaçons -->
+                        <rect x="30" y="60" width="22" height="20" rx="4" transform="rotate(-10 30 60)" fill="#FFFFFF" fill-opacity="0.75" stroke="#163E59" stroke-width="2"/>
+                        <rect x="54" y="66" width="22" height="20" rx="4" transform="rotate(14 54 66)" fill="#FFFFFF" fill-opacity="0.75" stroke="#163E59" stroke-width="2"/>
+                        <!-- Reflet verre -->
+                        <line x1="25" y1="24" x2="32" y2="136" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.75"/>
+                      </g>
+
+                      <!-- Bouteille La Piv'stillerie -->
+                      <g transform="translate(462, 130)">
+                        <rect x="34" y="0" width="24" height="18" rx="3" fill="#D95D39" stroke="#163E59" stroke-width="3"/>
+                        <path d="M36 18 H56 L62 48 C78 58 84 74 84 96 V196 C84 206 76 212 66 212 H26 C16 212 8 206 8 196 V96 C8 74 14 58 30 48 Z" fill="#C97926" stroke="#163E59" stroke-width="3.5"/>
+                        <rect x="16" y="96" width="60" height="82" rx="6" fill="#FDF6E3" stroke="#163E59" stroke-width="2.5"/>
+                        <rect x="20" y="102" width="52" height="16" fill="#163E59"/>
+                        <text x="46" y="114" text-anchor="middle" font-family="Oswald, sans-serif" font-size="9" font-weight="700" fill="#F5C542">VIV' LA PIVE</text>
+                        <text x="46" y="142" text-anchor="middle" font-family="Limelight, serif" font-size="14" fill="#D95D39">PASTIS</text>
+                        <text x="46" y="160" text-anchor="middle" font-family="Oswald, sans-serif" font-size="8.5" font-weight="700" fill="#163E59">45% VOL.</text>
+                      </g>
+
+                      <!-- Bandeau titre bas Art Déco -->
+                      <rect x="0" y="344" width="600" height="36" fill="#163E59"/>
+                      <text x="300" y="369" text-anchor="middle" font-family="Limelight, serif" font-size="22" fill="#F5C542" letter-spacing="3">ON SORT LE PASTIS</text>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ENCART MÉTÉO OFFICIELLE DU PORT + HISTOIRE -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Météo Interactive du Port -->
+        <div class="lg:col-span-5 deco-card bg-medBlue text-paperCream rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2 pb-3 mb-4 border-b-2 border-sunGold/40">
+              <div>
+                <span class="font-oswald uppercase text-xs tracking-widest text-sunGold block">Bulletin Officiel</span>
+                <h2 class="font-deco text-2xl sm:text-3xl text-paperCream">MÉTÉO DU PORT</h2>
+              </div>
+              <span id="weather-icon" class="text-4xl sm:text-5xl">☀️</span>
+            </div>
+
+            <div class="space-y-3">
+              <div class="flex items-baseline gap-3">
+                <span id="weather-temp" class="font-deco text-5xl text-sunGold">31°C</span>
+                <span id="weather-index" class="bg-terracotta text-paperCream font-oswald font-bold uppercase text-xs px-2.5 py-1 rounded border border-inkDark">
+                  Indice Pastis : CRITIQUE
+                </span>
+              </div>
+
+              <p id="weather-desc" class="font-lora italic text-base sm:text-lg text-paperCream/95 leading-snug">
+                « Mistral léger portant des notes de badiane et de réglisse fraîche. Hydratation anisée impérative avant midi. »
+              </p>
+
+              <div class="grid grid-cols-2 gap-2.5 pt-2 text-xs font-oswald uppercase tracking-wide">
+                <div class="bg-seaBlue/70 border border-paperCream/25 rounded-lg p-2.5">
+                  <span class="text-sunGold block">Risque de pluie</span>
+                  <span id="weather-rain" class="text-sm font-bold">0% (Interdit)</span>
+                </div>
+                <div class="bg-seaBlue/70 border border-paperCream/25 rounded-lg p-2.5">
+                  <span class="text-sunGold block">Temp. Glaçons</span>
+                  <span id="weather-ice" class="text-sm font-bold">-4°C Optimaux</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button
+            onclick="nextWeatherReport()"
+            class="retro-btn mt-6 w-full bg-sunGold hover:bg-amber-300 text-medBlue font-oswald font-bold uppercase text-sm py-3 rounded-xl"
+          >
+            ↻ Actualiser le Bulletin Météo
+          </button>
+        </div>
+
+        <!-- Histoire Humoristique de la Distillerie -->
+        <div class="lg:col-span-7 deco-card bg-paperWarm rounded-2xl p-6 sm:p-8 flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="bg-oliveGreen text-paperCream font-oswald font-bold uppercase text-xs px-3 py-1 rounded border-2 border-inkDark">
+                Chronique Historique
+              </span>
+              <span class="font-oswald uppercase text-xs font-bold text-seaBlue">
+                Fondée un jour de canicule à 11h58
+              </span>
+            </div>
+
+            <h2 class="font-deco text-3xl sm:text-4xl text-medBlue leading-tight">
+              LA LÉGENDE DE LA PIV'STILLERIE
+            </h2>
+
+            <div class="font-lora text-sm sm:text-base text-inkDark/90 space-y-3 leading-relaxed">
+              <p>
+                Tout commence un jeudi de juillet où les cigales faisaient grève à cause de la chaleur. À exactement <strong>11h58</strong>, sur la terrasse ombragée du quai, notre fondateur — coiffé de sa fidèle casquette de capitaine et vêtu de sa marinière réglementaire — prononça cette phrase entrée dans l'Histoire : <em>« Midi moins deux, c'est déjà midi passé. »</em>
+              </p>
+              <p>
+                C'est ainsi que naquit la recette secrète de <strong>La Piv'stillerie</strong> : une macération patiente d'anis étoilé, de fenouil sauvage, de bois de réglisse et d'une pointe de soleil en bouteille. Un élixir capable de transformer n'importe quel balcon en Vieux-Port marseillais dès le premier tintement de glaçon.
+              </p>
+            </div>
+          </div>
+
+          <!-- 3 chiffres clés décalés -->
+          <div class="grid grid-cols-3 gap-3 mt-6 pt-5 border-t-2 border-dashed border-medBlue/30 text-center">
+            <div class="bg-paperCream rounded-xl p-3 border-2 border-medBlue">
+              <span class="font-deco text-2xl sm:text-3xl text-terracotta block">11h58</span>
+              <span class="font-oswald uppercase text-[11px] font-bold text-medBlue">Heure d'ouverture</span>
+            </div>
+            <div class="bg-paperCream rounded-xl p-3 border-2 border-medBlue">
+              <span class="font-deco text-2xl sm:text-3xl text-seaBlue block">1 : 5</span>
+              <span class="font-oswald uppercase text-[11px] font-bold text-medBlue">Ratio d'Or officiel</span>
+            </div>
+            <div class="bg-paperCream rounded-xl p-3 border-2 border-medBlue">
+              <span class="font-deco text-2xl sm:text-3xl text-oliveGreen block">100%</span>
+              <span class="font-oswald uppercase text-[11px] font-bold text-medBlue">Soleil Garanti</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================== -->
+    <!-- ONGLET 2 : LE DOSEUR PARFAIT (JEU 1 : SIMULATEUR)          -->
+    <!-- ========================================================== -->
+    <section id="tab-doseur" class="tab-panel space-y-8">
+      <div class="deco-card bg-paperWarm rounded-2xl p-5 sm:p-8">
+        <div class="text-center max-w-2xl mx-auto mb-6">
+          <span class="inline-block bg-medBlue text-sunGold font-oswald font-bold uppercase text-xs px-3 py-1 rounded border-2 border-inkDark mb-2">
+            Atelier du Maître Distillateur
+          </span>
+          <h2 class="font-deco text-3xl sm:text-5xl text-medBlue">
+            LE DOSEUR PARFAIT
+          </h2>
+          <p class="font-lora italic text-sm sm:text-base text-inkDark/80 mt-1">
+            Dosez votre pastis, l'eau fraîche, le sirop et les glaçons pour obtenir le verdict officiel du Capitaine.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
+          <!-- VERRE ANIMÉ SVG AU CENTRE -->
+          <div class="lg:col-span-5 flex flex-col items-center">
+            <div class="deco-card-sm bg-paperCream rounded-2xl p-5 w-full max-w-sm flex flex-col items-center relative overflow-hidden">
+              <!-- Petit fond soleil -->
+              <div class="absolute -top-12 -right-12 w-36 h-36 rounded-full bg-sunGold/30 pointer-events-none"></div>
+
+              <svg id="pastis-glass-svg" viewBox="0 0 240 310" class="w-56 sm:w-64 h-auto relative z-10" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Verre de pastis interactif">
+                <defs>
+                  <!-- Clip intérieur exact du verre -->
+                  <clipPath id="glass-interior-clip">
+                    <path d="M52 38 H188 L170 258 C169 270 160 278 148 278 H92 C80 278 71 270 70 258 Z"/>
+                  </clipPath>
+                  <!-- Dégradé brillance verre -->
+                  <linearGradient id="glassShine" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.55"/>
+                    <stop offset="22%" stop-color="#FFFFFF" stop-opacity="0.1"/>
+                    <stop offset="85%" stop-color="#163E59" stop-opacity="0.06"/>
+                    <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.35"/>
+                  </linearGradient>
+                </defs>
+
+                <!-- Ombre sous le verre -->
+                <ellipse cx="120" cy="292" rx="68" ry="10" fill="#163E59" opacity="0.18"/>
+
+                <!-- Fond du verre -->
+                <path d="M46 32 H194 L175 262 C174 276 163 286 149 286 H91 C77 286 66 276 65 262 Z" fill="#EDF6FA" fill-opacity="0.7" stroke="#163E59" stroke-width="4.5" stroke-linejoin="round"/>
+
+                <!-- Contenu liquide + glaçons clippés dans le verre -->
+                <g clip-path="url(#glass-interior-clip)">
+                  <!-- Liquide principal -->
+                  <rect id="liquid-rect" x="40" y="280" width="160" height="0" fill="#E8A917" opacity="0.9" style="transition: y 0.25s ease, height 0.25s ease, fill 0.25s ease, opacity 0.25s ease;"/>
+
+                  <!-- Voile laiteux "louche" proportionnel au ratio réel -->
+                  <rect id="louche-layer" x="40" y="280" width="160" height="0" fill="#FFFDF5" opacity="0" style="transition: y 0.25s ease, height 0.25s ease, opacity 0.25s ease;"/>
+
+                  <!-- Surface ménisque du liquide -->
+                  <ellipse id="liquid-surface" cx="120" cy="280" rx="68" ry="6" fill="#FFFFFF" opacity="0" style="transition: cy 0.25s ease, opacity 0.25s ease;"/>
+
+                  <!-- Paillettes d'anéthole (visibles en cas de glaçons avant l'eau) -->
+                  <g id="anethole-flakes-group"></g>
+
+                  <!-- Groupe dynamique des glaçons -->
+                  <g id="ice-cubes-group"></g>
+                </g>
+
+                <!-- Base épaisse en verre -->
+                <path d="M68 258 H172 L170 264 C169 275 160 282 148 282 H92 C80 282 71 275 70 264 Z" fill="#D4E8F2" opacity="0.65"/>
+
+                <!-- Reflets de verre par-dessus -->
+                <path d="M52 38 H188 L170 258 C169 270 160 278 148 278 H92 C80 278 71 270 70 258 Z" fill="url(#glassShine)" pointer-events="none"/>
+                <line x1="65" y1="54" x2="78" y2="244" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.65"/>
+                <line x1="172" y1="54" x2="162" y2="180" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.45"/>
+
+                <!-- Logo discret gravé sur le verre -->
+                <text x="120" y="210" text-anchor="middle" font-family="Oswald, sans-serif" font-size="11" font-weight="700" fill="#163E59" opacity="0.28" letter-spacing="1.5">LA PIV'STILLERIE</text>
+
+                <!-- Rebord supérieur elliptique -->
+                <ellipse cx="120" cy="32" rx="74" ry="7" fill="none" stroke="#163E59" stroke-width="4"/>
+              </svg>
+
+              <!-- Alerte de débordement si volume > 32 cl -->
+              <div id="glass-overflow-badge" class="hidden mt-1 bg-terracotta text-paperCream font-oswald font-bold uppercase text-xs px-3 py-1 rounded-full border-2 border-inkDark animate-pulse">
+                ⚠️ Ça déborde sur la nappe !
+              </div>
+
+              <!-- Résumé volume total, ratio exact et glaçons -->
+              <div class="mt-2 flex flex-wrap items-center justify-center gap-2 text-xs font-oswald uppercase font-bold text-medBlue">
+                <span id="glass-total-cl" class="bg-sunGold/60 px-2.5 py-1 rounded-full border border-medBlue">Volume : 12 cl</span>
+                <span id="glass-ratio-badge" class="bg-terracotta/15 text-terracotta px-2.5 py-1 rounded-full border border-terracotta">Ratio : 1 : 5.0</span>
+                <span id="glass-ice-count" class="bg-seaBlue/15 px-2.5 py-1 rounded-full border border-medBlue">Glaçons : 0 / 5</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONTRÔLES & VERDICT EN TEMPS RÉEL -->
+          <div class="lg:col-span-7 space-y-5">
+            <!-- Curseurs -->
+            <div class="deco-card-sm bg-paperCream rounded-2xl p-5 space-y-5">
+              <!-- Dose de Pastis -->
+              <div>
+                <div class="flex justify-between items-center font-oswald font-bold uppercase text-sm sm:text-base mb-2">
+                  <label for="slider-pastis" class="text-medBlue">🥃 Dose de Pastis</label>
+                  <span id="val-pastis" class="text-terracotta text-lg">2 cl</span>
+                </div>
+                <input id="slider-pastis" type="range" min="0" max="10" step="0.5" value="2" class="pastis-range w-full" oninput="updatePastisSim()" />
+                <div class="flex justify-between text-[11px] font-semibold text-inkDark/60 mt-1">
+                  <span>0 cl (Sobre)</span>
+                  <span>2 cl (Classique)</span>
+                  <span>5 cl (Double+)</span>
+                  <span>10 cl (Capitaine)</span>
+                </div>
+              </div>
+
+              <!-- Dose d'Eau Fraîche -->
+              <div>
+                <div class="flex justify-between items-center font-oswald font-bold uppercase text-sm sm:text-base mb-2">
+                  <label for="slider-water" class="text-medBlue">💧 Eau très fraîche</label>
+                  <span id="val-water" class="text-seaBlue text-lg">10 cl</span>
+                </div>
+                <input id="slider-water" type="range" min="0" max="30" step="1" value="10" class="pastis-range w-full" oninput="updatePastisSim()" />
+                <div class="flex justify-between text-[11px] font-semibold text-inkDark/60 mt-1">
+                  <span>0 cl (Pur)</span>
+                  <span>10 cl</span>
+                  <span>20 cl</span>
+                  <span>30 cl (Piscine)</span>
+                </div>
+              </div>
+
+              <!-- Sélecteur de Sirop Bonus -->
+              <div>
+                <span class="block font-oswald font-bold uppercase text-sm text-medBlue mb-2">🍾 Variante / Sirop</span>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="syrup-buttons">
+                  <button onclick="setSyrup('nature')" data-syrup="nature" class="syrup-btn retro-btn bg-medBlue text-sunGold font-oswald font-bold uppercase text-xs py-2.5 px-2 rounded-xl">
+                    Nature<br/><span class="font-sans font-normal text-[10px] opacity-90">(Puriste)</span>
+                  </button>
+                  <button onclick="setSyrup('orgeat')" data-syrup="orgeat" class="syrup-btn retro-btn bg-paperWarm text-medBlue font-oswald font-bold uppercase text-xs py-2.5 px-2 rounded-xl">
+                    Orgeat<br/><span class="font-sans font-normal text-[10px] opacity-80">(Mauresque)</span>
+                  </button>
+                  <button onclick="setSyrup('menthe')" data-syrup="menthe" class="syrup-btn retro-btn bg-paperWarm text-medBlue font-oswald font-bold uppercase text-xs py-2.5 px-2 rounded-xl">
+                    Menthe<br/><span class="font-sans font-normal text-[10px] opacity-80">(Perroquet)</span>
+                  </button>
+                  <button onclick="setSyrup('grenadine')" data-syrup="grenadine" class="syrup-btn retro-btn bg-paperWarm text-medBlue font-oswald font-bold uppercase text-xs py-2.5 px-2 rounded-xl">
+                    Grenadine<br/><span class="font-sans font-normal text-[10px] opacity-80">(Tomate)</span>
+                  </button>
+                </div>
+
+                <!-- Curseur de dose de sirop (affiché uniquement pour Mauresque / Perroquet / Tomate) -->
+                <div id="syrup-slider-wrap" class="hidden mt-3 p-3 rounded-xl bg-paperWarm border-2 border-medBlue/30">
+                  <div class="flex justify-between items-center font-oswald font-bold uppercase text-xs sm:text-sm mb-1.5">
+                    <label for="slider-syrup" id="label-syrup" class="text-medBlue">🍯 Dose de sirop</label>
+                    <span id="val-syrup" class="text-terracotta text-base">1 cl</span>
+                  </div>
+                  <input id="slider-syrup" type="range" min="0.5" max="3" step="0.5" value="1" class="pastis-range w-full" oninput="updatePastisSim()" />
+                  <div class="flex justify-between text-[11px] font-semibold text-inkDark/60 mt-1">
+                    <span>0.5 cl (Léger)</span>
+                    <span id="syrup-rec-hint">Recommandé : ~1 cl</span>
+                    <span>3 cl (Très sucré)</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Boutons Glaçons & Vider -->
+              <div class="flex flex-wrap gap-3 pt-1">
+                <button onclick="addIceCube()" class="retro-btn flex-1 bg-seaBlue hover:bg-medBlue text-paperCream font-oswald font-bold uppercase text-sm py-2.5 px-4 rounded-xl">
+                  🧊 + Glaçon
+                </button>
+                <button onclick="emptyGlass()" class="retro-btn bg-paperWarm hover:bg-terracotta hover:text-paperCream text-inkDark font-oswald font-bold uppercase text-sm py-2.5 px-4 rounded-xl">
+                  ↺ Vider le verre
+                </button>
+              </div>
+            </div>
+
+            <!-- VERDICT DYNAMIQUE DU MAÎTRE DISTILLATEUR -->
+            <div class="deco-card-sm bg-medBlue text-paperCream rounded-2xl p-5">
+              <div class="flex flex-wrap items-center justify-between gap-2 pb-2.5 mb-3 border-b border-sunGold/40">
+                <span class="font-oswald uppercase text-xs tracking-widest text-sunGold">Verdict du Maître Distillateur</span>
+                <span id="verdict-score" class="bg-sunGold text-medBlue font-deco text-xl px-3 py-0.5 rounded-lg border-2 border-inkDark">
+                  10 / 10
+                </span>
+              </div>
+              <h3 id="verdict-title" class="font-deco text-2xl sm:text-3xl text-sunGold leading-snug">
+                Le Ratio d'Or !
+              </h3>
+              <p id="verdict-desc" class="font-lora italic text-sm sm:text-base text-paperCream/95 mt-1.5">
+                Certifié Maître Distillateur. Un équilibre parfait entre l'anis et la fraîcheur du Sud.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================== -->
+    <!-- ONGLET 3 : PÉTANQUE DU PORT (JEU 2 : CANVAS HTML5)         -->
+    <!-- ========================================================== -->
+    <section id="tab-petanque" class="tab-panel space-y-6">
+      <div class="deco-card bg-paperWarm rounded-2xl p-4 sm:p-7">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+          <div>
+            <span class="inline-block bg-terracotta text-paperCream font-oswald font-bold uppercase text-xs px-2.5 py-0.5 rounded border-2 border-inkDark mb-1">
+              Terrain du Vieux-Port • Jeu Tactile & Souris
+            </span>
+            <h2 class="font-deco text-3xl sm:text-4xl text-medBlue leading-none">
+              PÉTANQUE DU PORT
+            </h2>
+            <p class="text-xs sm:text-sm text-inkDark/80 mt-1">
+              Cliquez ou touchez votre boule argentée en bas, <strong>tirez en arrière</strong> pour viser et doser la puissance, puis relâchez !
+            </p>
+          </div>
+
+          <button
+            onclick="startNewPetanqueMene()"
+            class="retro-btn bg-sunGold hover:bg-amber-300 text-medBlue font-oswald font-bold uppercase text-sm px-5 py-2.5 rounded-xl shrink-0 self-start md:self-center"
+          >
+            ↺ Nouvelle Mène
+          </button>
+        </div>
+
+        <!-- Tableau de scores Pétanque -->
+        <div class="grid grid-cols-3 gap-2.5 sm:gap-4 mb-4">
+          <div class="bg-paperCream border-2 border-medBlue rounded-xl p-2.5 sm:p-3 text-center">
+            <span class="block font-oswald uppercase text-[11px] font-bold text-seaBlue">Votre Score</span>
+            <span id="petanque-score-player" class="font-deco text-2xl sm:text-3xl text-medBlue">0</span>
+          </div>
+          <div class="bg-paperCream border-2 border-medBlue rounded-xl p-2.5 sm:p-3 text-center">
+            <span class="block font-oswald uppercase text-[11px] font-bold text-terracotta">Boules Restantes</span>
+            <span id="petanque-boules-left" class="font-deco text-2xl sm:text-3xl text-terracotta">3</span>
+          </div>
+          <div class="bg-paperCream border-2 border-medBlue rounded-xl p-2.5 sm:p-3 text-center">
+            <span class="block font-oswald uppercase text-[11px] font-bold text-oliveGreen">Adversaire</span>
+            <span id="petanque-score-ai" class="font-deco text-2xl sm:text-3xl text-inkDark">0</span>
+          </div>
+        </div>
+
+        <!-- Bandeau de commentaire provençal -->
+        <div id="petanque-commentary" class="mb-4 bg-medBlue text-sunGold font-oswald uppercase tracking-wide text-center text-sm sm:text-base py-2.5 px-4 rounded-xl border-2 border-inkDark">
+          🎯 À vous de jouer ! Tu tires ou tu pointes ?
+        </div>
+
+        <!-- Zone Canvas Terrain de Pétanque -->
+        <div id="petanque-wrapper" class="relative w-full h-[430px] sm:h-[500px] rounded-2xl overflow-hidden border-4 border-medBlue shadow-inner bg-[#DFC79A]">
+          <canvas id="petanque-canvas" class="game-canvas cursor-grab active:cursor-grabbing"></canvas>
+        </div>
+
+        <!-- Légende distances -->
+        <div class="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs font-oswald uppercase font-bold text-medBlue">
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-sunGold border border-inkDark inline-block"></span> Cochonnet</span>
+            <span class="inline-flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-slate-300 border border-inkDark inline-block"></span> Vos boules</span>
+            <span class="inline-flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-terracotta border border-inkDark inline-block"></span> Adversaire</span>
+          </div>
+          <span id="petanque-dist-info" class="text-seaBlue">Distance la plus proche : —</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================== -->
+    <!-- ONGLET 4 : APÉRO RUSH (JEU 3 : ARCADE 30S CANVAS HTML5)    -->
+    <!-- ========================================================== -->
+    <section id="tab-apero-rush" class="tab-panel space-y-6">
+      <div class="deco-card bg-paperWarm rounded-2xl p-4 sm:p-7">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+          <div>
+            <span class="inline-block bg-oliveGreen text-paperCream font-oswald font-bold uppercase text-xs px-2.5 py-0.5 rounded border-2 border-inkDark mb-1">
+              Arcade Provençale • 30 Secondes Chrono
+            </span>
+            <h2 class="font-deco text-3xl sm:text-4xl text-medBlue leading-none">
+              APÉRO RUSH
+            </h2>
+            <p class="text-xs sm:text-sm text-inkDark/80 mt-1">
+              Déplacez votre verre (<strong>doigt, souris ou flèches ◀ ▶</strong>) pour attraper olives, glaçons, badiane et bouteilles dorées. Évitez la pluie et les mouettes !
+            </p>
+          </div>
+          <button
+            onclick="startAperoRush()"
+            id="rush-start-top-btn"
+            class="retro-btn bg-terracotta hover:bg-orange-600 text-paperCream font-oswald font-bold uppercase text-sm px-5 py-2.5 rounded-xl shrink-0 self-start md:self-center"
+          >
+            ▶ Lancer la Partie
+          </button>
+        </div>
+
+        <!-- HUD Score / Temps / Meilleur Score -->
+        <div class="grid grid-cols-3 gap-2.5 sm:gap-4 mb-3">
+          <div class="bg-paperCream border-2 border-medBlue rounded-xl p-2.5 text-center">
+            <span class="block font-oswald uppercase text-[11px] font-bold text-seaBlue">Score</span>
+            <span id="rush-score" class="font-deco text-2xl sm:text-3xl text-medBlue">0</span>
+          </div>
+          <div class="bg-paperCream border-2 border-medBlue rounded-xl p-2.5 text-center">
+            <span class="block font-oswald uppercase text-[11px] font-bold text-terracotta">Chrono</span>
+            <span id="rush-time" class="font-deco text-2xl sm:text-3xl text-terracotta">30.0s</span>
+          </div>
+          <div class="bg-paperCream border-2 border-medBlue rounded-xl p-2.5 text-center">
+            <span class="block font-oswald uppercase text-[11px] font-bold text-oliveGreen">Record</span>
+            <span id="rush-best" class="font-deco text-2xl sm:text-3xl text-oliveGreen">0</span>
+          </div>
+        </div>
+
+        <!-- Barre de temps -->
+        <div class="w-full h-4 bg-paperCream rounded-full border-2 border-medBlue overflow-hidden mb-4">
+          <div id="rush-time-bar" class="h-full bg-sunGold transition-all duration-100" style="width: 100%;"></div>
+        </div>
+
+        <!-- Zone Canvas Arcade -->
+        <div id="rush-wrapper" class="relative w-full h-[410px] sm:h-[460px] rounded-2xl overflow-hidden border-4 border-medBlue bg-gradient-to-b from-[#F5C542] via-[#F9DA78] to-[#23648E]">
+          <canvas id="rush-canvas" class="game-canvas cursor-ew-resize"></canvas>
+
+          <!-- Overlay Accueil / Fin de partie -->
+          <div id="rush-overlay" class="absolute inset-0 bg-medBlue/80 backdrop-blur-[2px] flex flex-col items-center justify-center p-5 text-center text-paperCream z-20">
+            <span id="rush-overlay-tag" class="bg-sunGold text-medBlue font-oswald font-bold uppercase text-xs px-3 py-1 rounded-full border-2 border-inkDark mb-2">
+              Prêt pour l'apéro ?
+            </span>
+            <h3 id="rush-overlay-title" class="font-deco text-3xl sm:text-5xl text-sunGold deco-title-gold leading-tight">
+              APÉRO RUSH !
+            </h3>
+            <p id="rush-overlay-desc" class="font-lora italic text-sm sm:text-base max-w-md mt-2 text-paperCream/95">
+              Attrapez 🫒 Olives (+10), 🧊 Glaçons (+15), ⭐ Badiane (+20) et 🍾 Bouteilles (+50). Esquivez 💧 Pluie (-25) et 🕊️ Mouettes (-30) !
+            </p>
+            <button
+              onclick="startAperoRush()"
+              class="retro-btn mt-5 bg-sunGold hover:bg-amber-300 text-medBlue font-oswald font-bold uppercase text-base px-7 py-3 rounded-xl"
+            >
+              ▶ C'est parti !
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================== -->
+    <!-- ONGLET 5 : LA BOUTIQUE                                     -->
+    <!-- ========================================================== -->
+    <section id="tab-boutique" class="tab-panel space-y-8">
+      <div class="deco-card bg-medBlue text-paperCream rounded-2xl p-5 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <span class="inline-block bg-sunGold text-medBlue font-oswald font-bold uppercase text-xs px-2.5 py-0.5 rounded border-2 border-inkDark mb-1.5">
+            Catalogue Officiel • Tarifs en CHF
+          </span>
+          <h2 class="font-deco text-3xl sm:text-5xl text-sunGold leading-none">
+            LA BOUTIQUE DU PORT
+          </h2>
+          <p class="font-lora italic text-sm sm:text-base text-paperCream/90 mt-1.5">
+            Tout le nécessaire du parfait capitaine de terrasse, livré avec l'accent chantant du Midi.
+          </p>
+        </div>
+        <button
+          onclick="toggleCart(true)"
+          class="retro-btn bg-sunGold hover:bg-amber-300 text-medBlue font-oswald font-bold uppercase text-sm px-5 py-3 rounded-xl shrink-0 self-start md:self-center"
+        >
+          Voir ma réserve (<span id="shop-cart-count">0</span>)
+        </button>
+      </div>
+
+      <!-- Grille des 4 produits -->
+      <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Injecté par JS -->
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== PIED DE PAGE ==================== -->
+  <footer class="bg-medBlue text-paperCream border-t-4 border-sunGold mt-10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+      <p class="text-xs sm:text-sm text-paperCream/90">
+        © La Piv'stillerie — Cuvée Officielle © Viv' la Pive • À déguster avec modération et beaucoup de soleil.
+      </p>
+      <span class="font-oswald uppercase text-xs tracking-widest text-sunGold">
+        ☀ 11h58 • Port du Sud
+      </span>
+    </div>
+  </footer>
+
+  <!-- ==================== TIROIR PANIER LATÉRAL ==================== -->
+  <div id="cart-overlay" class="fixed inset-0 z-50 hidden">
+    <div onclick="toggleCart(false)" class="absolute inset-0 bg-inkDark/65 backdrop-blur-[2px]"></div>
+
+    <aside class="absolute right-0 top-0 h-full w-full max-w-md bg-paperCream border-l-4 border-medBlue flex flex-col shadow-2xl">
+      <div class="p-4 sm:p-5 bg-sunGold flex items-center justify-between border-b-3 border-medBlue">
+        <h3 class="font-deco text-2xl sm:text-3xl text-medBlue tracking-wide">
+          VOTRE RÉSERVE
+        </h3>
+        <button onclick="toggleCart(false)" class="w-9 h-9 rounded-lg bg-paperCream border-2 border-inkDark font-bold text-lg hover:bg-terracotta hover:text-paperCream transition-colors" aria-label="Fermer le panier">
+          ✕
+        </button>
+      </div>
+
+      <div id="cart-items" class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3">
+        <!-- Rempli dynamiquement -->
+      </div>
+
+      <div class="p-4 sm:p-5 bg-paperWarm border-t-2 border-medBlue space-y-3">
+        <div class="flex items-center justify-between font-oswald font-bold text-lg uppercase">
+          <span>Total :</span>
+          <span id="cart-total" class="text-terracotta text-2xl">CHF 0.00</span>
+        </div>
+        <button
+          id="checkout-btn"
+          onclick="openCheckoutModal()"
+          class="retro-btn w-full bg-terracotta hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed text-paperCream font-oswald font-bold uppercase text-base py-3.5 rounded-xl"
+        >
+          Valider la commande
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ==================== MODALE « RUPTURE DE STOCK ! » ==================== -->
+  <div id="checkout-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+    <div onclick="closeCheckoutModal()" class="absolute inset-0 bg-inkDark/70 backdrop-blur-[2px]"></div>
+
+    <div class="relative z-10 max-w-lg w-full deco-card bg-paperCream rounded-2xl p-6 sm:p-8 text-center">
+      <button onclick="closeCheckoutModal()" class="absolute top-3 right-3 w-9 h-9 rounded-lg bg-paperWarm border-2 border-inkDark font-bold hover:bg-terracotta hover:text-paperCream transition-colors" aria-label="Fermer">
+        ✕
+      </button>
+
+      <div class="my-2">
+        <span class="inline-block vintage-stamp stamp-drop text-terracotta bg-orange-50 px-5 py-2 rounded-xl font-deco text-2xl sm:text-3xl tracking-wider">
+          RUPTURE DE STOCK !
+        </span>
+      </div>
+
+      <p class="font-lora italic font-bold text-lg text-medBlue mt-4">
+        Le capitaine a vidé la réserve avec ses copains sur la terrasse.
+      </p>
+
+      <p class="text-sm sm:text-base text-inkDark/85 mt-3 leading-relaxed">
+        Réapprovisionnement au prochain rayon de soleil ! En attendant, vous pouvez toujours vous entraîner au Doseur Parfait ou faire une partie de Pétanque du Port.
+      </p>
+
+      <button
+        onclick="closeCheckoutModal()"
+        class="retro-btn mt-6 bg-sunGold hover:bg-amber-300 text-medBlue font-oswald font-bold uppercase text-sm px-6 py-2.5 rounded-xl"
+      >
+        ☀ Retourner au soleil
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 transition-all duration-300">
+    <div class="deco-card-sm bg-medBlue text-sunGold font-oswald font-bold uppercase text-xs sm:text-sm px-5 py-2.5 rounded-full">
+      <span id="toast-msg">Ajouté à la réserve !</span>
+    </div>
+  </div>
+
+  <!-- ==================== JAVASCRIPT COMPLET ==================== -->
+  <script>
+    // =========================================================================
+    // 1. UTILITAIRES : FALLBACK IMAGE, NAVIGATION ONGLETS & TOAST
+    // =========================================================================
+    function handleImageFallback(imgEl, fallbackId) {
+      imgEl.style.display = 'none';
+      const fallback = document.getElementById(fallbackId);
+      if (fallback) fallback.classList.remove('hidden');
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-panel').forEach((panel) => {
+        panel.classList.remove('active');
+      });
+
+      const target = document.getElementById('tab-' + tabId);
+      if (target) target.classList.add('active');
+
+      document.querySelectorAll('.nav-tab').forEach((btn) => {
+        if (btn.dataset.tab === tabId) {
+          btn.classList.add('active-tab');
+        } else {
+          btn.classList.remove('active-tab');
+        }
+      });
+
+      // Redimensionner / initialiser les jeux Canvas quand leur onglet s'ouvre
+      if (tabId === 'petanque') {
+        requestAnimationFrame(() => resizePetanqueCanvas());
+      }
+      if (tabId === 'apero-rush') {
+        requestAnimationFrame(() => resizeRushCanvas());
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      toast.classList.remove('opacity-0', 'translate-y-2');
+      toast.classList.add('opacity-100', 'translate-y-0');
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-2');
+      }, 2200);
+    }
+
+    // =========================================================================
+    // 2. MÉTÉO OFFICIELLE DU PORT (ONGLET 1)
+    // =========================================================================
+    const weatherReports = [
+      {
+        icon: '☀️',
+        temp: '31°C',
+        index: 'Indice Pastis : CRITIQUE',
+        desc: '« Mistral léger portant des notes de badiane et de réglisse fraîche. Hydratation anisée impérative avant midi. »',
+        rain: '0% (Interdit)',
+        ice: '-4°C Optimaux',
+      },
+      {
+        icon: '😎',
+        temp: '34°C',
+        index: 'Indice Pastis : URGENCE ABSOLUE',
+        desc: '« Risque de pluie : 0% (interdit par arrêté municipal). Les cigales chantent en stéréo sur le quai. »',
+        rain: '0% (Arrêté)',
+        ice: 'Stock Limite !',
+      },
+      {
+        icon: '🌅',
+        temp: '28°C',
+        index: 'Indice Pastis : IDÉAL TERRASSE',
+        desc: '« Coucher de soleil doré sur le Vieux-Port. Visibilité excellente sur le cochonnet et le bol d’olives. »',
+        rain: '0% (Mirage)',
+        ice: 'Glaçons Frais',
+      },
+      {
+        icon: '⛵',
+        temp: '29°C',
+        index: 'Indice Pastis : VENT ARRIÈRE',
+        desc: '« Brise marine tiède. Pression atmosphérique parfaitement calibrée pour faire tinter les verres à 18h00. »',
+        rain: '0% (Banni)',
+        ice: 'Très Frais',
+      },
+    ];
+    let currentWeatherIdx = 0;
+
+    function nextWeatherReport() {
+      currentWeatherIdx = (currentWeatherIdx + 1) % weatherReports.length;
+      const w = weatherReports[currentWeatherIdx];
+      document.getElementById('weather-icon').textContent = w.icon;
+      document.getElementById('weather-temp').textContent = w.temp;
+      document.getElementById('weather-index').textContent = w.index;
+      document.getElementById('weather-desc').textContent = w.desc;
+      document.getElementById('weather-rain').textContent = w.rain;
+      document.getElementById('weather-ice').textContent = w.ice;
+    }
+
+    // =========================================================================
+    // 3. LE DOSEUR PARFAIT — SIMULATEUR DE PASTIS (ONGLET 2)
+    // =========================================================================
+    const simState = {
+      pastis: 2,
+      water: 10,
+      syrupCl: 0,
+      iceCount: 0,
+      iceBeforeWater: false,
+      syrup: 'nature', // nature | orgeat | menthe | grenadine
+    };
+
+    // Utilitaires d'interpolation linéaire pour des transitions colorimétriques fluides
+    function lerpVal(a, b, t) {
+      return a + (b - a) * Math.max(0, Math.min(1, t));
+    }
+
+    function lerpColor(rgbA, rgbB, t) {
+      const k = Math.max(0, Math.min(1, t));
+      const r = Math.round(rgbA[0] + (rgbB[0] - rgbA[0]) * k);
+      const g = Math.round(rgbA[1] + (rgbB[1] - rgbA[1]) * k);
+      const b = Math.round(rgbA[2] + (rgbB[2] - rgbA[2]) * k);
+      return [r, g, b];
+    }
+
+    function sampleStops(stops, x) {
+      if (x <= stops[0].at) return stops[0];
+      const last = stops[stops.length - 1];
+      if (x >= last.at) return last;
+
+      for (let i = 0; i < stops.length - 1; i++) {
+        const s1 = stops[i];
+        const s2 = stops[i + 1];
+        if (x >= s1.at && x <= s2.at) {
+          const t = (x - s1.at) / (s2.at - s1.at);
+          return {
+            rgb: lerpColor(s1.rgb, s2.rgb, t),
+            alpha: lerpVal(s1.alpha, s2.alpha, t),
+            louche: lerpVal(s1.louche, s2.louche, t),
+          };
+        }
+      }
+      return last;
+    }
+
+    // Courbes colorimétriques physiques réalistes selon le ratio réel (eau / pastis)
+    const variantColorCurves = {
+      nature: [
+        { at: 0.0,  rgb: [158, 82, 10],  alpha: 0.94, louche: 0.00 }, // Pur : ambré caramel foncé translucide
+        { at: 1.0,  rgb: [198, 126, 22], alpha: 0.94, louche: 0.14 }, // Très fort : ambré doré sombre
+        { at: 2.5,  rgb: [228, 174, 42], alpha: 0.96, louche: 0.40 }, // Corsé : jaune doré soutenu & trouble
+        { at: 5.0,  rgb: [246, 214, 92], alpha: 0.97, louche: 0.62 }, // Ratio d'or 1:5 : jaune laiteux lumineux
+        { at: 8.5,  rgb: [242, 232, 164], alpha: 0.76, louche: 0.36 }, // Noyé : jaune pâle délavé
+        { at: 15.0, rgb: [232, 240, 224], alpha: 0.48, louche: 0.14 }, // Piscine : aqueux quasi transparent
+      ],
+      orgeat: [
+        { at: 0.0,  rgb: [176, 124, 54], alpha: 0.96, louche: 0.26 }, // Peu d'eau : ambré laiteux foncé
+        { at: 1.5,  rgb: [216, 182, 118], alpha: 0.97, louche: 0.48 }, // Fort : crème dorée dense
+        { at: 5.0,  rgb: [248, 240, 212], alpha: 0.98, louche: 0.76 }, // 1:5 : blanc-ivoire crémeux légèrement doré
+        { at: 8.5,  rgb: [244, 244, 232], alpha: 0.78, louche: 0.46 }, // Trop d'eau : blanc clair fluide
+        { at: 15.0, rgb: [236, 244, 242], alpha: 0.50, louche: 0.20 }, // Piscine : blanc aqueux translucide
+      ],
+      menthe: [
+        { at: 0.0,  rgb: [52, 92, 32],   alpha: 0.95, louche: 0.04 }, // Peu d'eau : vert kaki/ambré sombre
+        { at: 1.5,  rgb: [44, 134, 60],  alpha: 0.96, louche: 0.24 }, // Fort : vert émeraude profond
+        { at: 5.0,  rgb: [96, 208, 122], alpha: 0.97, louche: 0.50 }, // 1:5 : vert menthe laiteux éclatant
+        { at: 8.5,  rgb: [148, 224, 172], alpha: 0.76, louche: 0.30 }, // Trop d'eau : vert pastel dilué
+        { at: 15.0, rgb: [192, 238, 212], alpha: 0.48, louche: 0.14 }, // Piscine : vert très pâle transparent
+      ],
+      grenadine: [
+        { at: 0.0,  rgb: [128, 26, 22],  alpha: 0.95, louche: 0.04 }, // Peu d'eau : rouge-brun grenat foncé
+        { at: 1.5,  rgb: [184, 46, 44],  alpha: 0.96, louche: 0.24 }, // Fort : rouge rubis dense
+        { at: 5.0,  rgb: [238, 108, 96], alpha: 0.97, louche: 0.48 }, // 1:5 : rose-corail / saumon laiteux vibrant
+        { at: 8.5,  rgb: [244, 158, 152], alpha: 0.76, louche: 0.28 }, // Trop d'eau : rose clair dilué
+        { at: 15.0, rgb: [248, 202, 198], alpha: 0.48, louche: 0.14 }, // Piscine : rose très clair délavé
+      ],
+    };
+
+    const syrupPureColors = {
+      orgeat: [244, 232, 200],
+      menthe: [20, 148, 64],
+      grenadine: [196, 24, 38],
+    };
+
+    const syrupLabels = {
+      orgeat: '🌰 Dose de sirop d’Orgeat',
+      menthe: '🌿 Dose de sirop de Menthe',
+      grenadine: '🍓 Dose de sirop de Grenadine',
+    };
+
+    function setSyrup(syrupKey) {
+      simState.syrup = syrupKey;
+      const wrap = document.getElementById('syrup-slider-wrap');
+      const slider = document.getElementById('slider-syrup');
+
+      document.querySelectorAll('.syrup-btn').forEach((btn) => {
+        if (btn.dataset.syrup === syrupKey) {
+          btn.classList.remove('bg-paperWarm', 'text-medBlue');
+          btn.classList.add('bg-medBlue', 'text-sunGold');
+        } else {
+          btn.classList.remove('bg-medBlue', 'text-sunGold');
+          btn.classList.add('bg-paperWarm', 'text-medBlue');
+        }
+      });
+
+      if (syrupKey === 'nature') {
+        wrap.classList.add('hidden');
+        simState.syrupCl = 0;
+      } else {
+        wrap.classList.remove('hidden');
+        document.getElementById('label-syrup').textContent = syrupLabels[syrupKey];
+        // Ajuste automatiquement la dose recommandée si on vient de Nature
+        if (simState.syrupCl === 0) {
+          const rec = Math.max(0.5, Math.min(3, Math.round(simState.pastis * 0.5 * 2) / 2 || 1));
+          slider.value = rec;
+        }
+      }
+      updatePastisSim();
+    }
+
+    function addIceCube() {
+      if (simState.iceCount >= 5) {
+        showToast('Le verre déborde déjà de glaçons !');
+        return;
+      }
+      // Ordre d'ajout réel : ajouter un glaçon alors qu'il y a du pastis et 0 cl d'eau déclenche le sacrilège
+      if (simState.pastis > 0 && simState.water === 0) {
+        simState.iceBeforeWater = true;
+      }
+      simState.iceCount += 1;
+      updatePastisSim();
+    }
+
+    function emptyGlass() {
+      document.getElementById('slider-pastis').value = 0;
+      document.getElementById('slider-water').value = 0;
+      document.getElementById('slider-syrup').value = 1;
+      simState.pastis = 0;
+      simState.water = 0;
+      simState.syrupCl = 0;
+      simState.iceCount = 0;
+      simState.iceBeforeWater = false;
+      setSyrup('nature');
+      updatePastisSim();
+    }
+
+    function updatePastisSim() {
+      simState.pastis = parseFloat(document.getElementById('slider-pastis').value);
+      simState.water = parseFloat(document.getElementById('slider-water').value);
+      simState.syrupCl = simState.syrup === 'nature' ? 0 : parseFloat(document.getElementById('slider-syrup').value);
+
+      // Si on retire tout le pastis ou tous les glaçons, le sacrilège disparaît
+      if (simState.pastis === 0 || simState.iceCount === 0) {
+        simState.iceBeforeWater = false;
+      }
+
+      document.getElementById('val-pastis').textContent = simState.pastis + ' cl';
+      document.getElementById('val-water').textContent = simState.water + ' cl';
+      if (simState.syrup !== 'nature') {
+        document.getElementById('val-syrup').textContent = simState.syrupCl + ' cl';
+        const recSyrup = Math.max(0.5, Math.min(3, Math.round(simState.pastis * 0.5 * 2) / 2 || 1));
+        document.getElementById('syrup-rec-hint').textContent = `Recommandé : ~${recSyrup} cl`;
+      }
+
+      // Volume liquide + déplacement physique des glaçons (~1.6 cl / glaçon)
+      const liquidVol = simState.pastis + simState.water + simState.syrupCl;
+      const totalVol = liquidVol + simState.iceCount * 1.6;
+      const isOverflow = totalVol > 32;
+
+      document.getElementById('glass-total-cl').textContent = `Volume : ${totalVol.toFixed(1).replace('.0', '')} cl`;
+      document.getElementById('glass-ice-count').textContent = `Glaçons : ${simState.iceCount} / 5`;
+      document.getElementById('glass-overflow-badge').classList.toggle('hidden', !isOverflow);
+
+      // Affichage mathématique exact du ratio Eau / Pastis
+      const ratioBadge = document.getElementById('glass-ratio-badge');
+      let ratioText = 'Verre vide';
+      if (simState.pastis === 0 && simState.water === 0 && simState.syrupCl === 0) {
+        ratioText = 'Verre vide';
+      } else if (simState.pastis === 0 && simState.water > 0) {
+        ratioText = simState.syrupCl > 0 ? 'Sirop à l’eau' : 'Eau pure';
+      } else if (simState.pastis === 0 && simState.water === 0 && simState.syrupCl > 0) {
+        ratioText = 'Sirop pur';
+      } else if (simState.water === 0) {
+        ratioText = 'Pur (1 : 0)';
+      } else {
+        const realRatio = simState.water / simState.pastis;
+        ratioText = `Ratio : 1 : ${realRatio.toFixed(1)}`;
+      }
+      ratioBadge.textContent = ratioText;
+
+      // Géométrie du liquide dans le verre SVG (fond y=278, bord haut y=46 => max 232px)
+      const maxCl = 32;
+      const fillRatio = Math.min(1, totalVol / maxCl);
+      const liquidHeight = liquidVol > 0 ? Math.max(6, fillRatio * 232) : 0;
+      const liquidY = 278 - liquidHeight;
+
+      const liquidRect = document.getElementById('liquid-rect');
+      const loucheLayer = document.getElementById('louche-layer');
+      const liquidSurface = document.getElementById('liquid-surface');
+
+      liquidRect.setAttribute('y', liquidY);
+      liquidRect.setAttribute('height', liquidHeight);
+      loucheLayer.setAttribute('y', liquidY);
+      loucheLayer.setAttribute('height', liquidHeight);
+
+      if (liquidHeight > 2) {
+        liquidSurface.setAttribute('cy', liquidY);
+        liquidSurface.setAttribute('opacity', '0.45');
+      } else {
+        liquidSurface.setAttribute('opacity', '0');
+      }
+
+      // Calcul colorimétrique physique et continu
+      let finalRGB = [189, 227, 245];
+      let finalAlpha = 0.45;
+      let finalLouche = 0;
+
+      if (simState.pastis === 0) {
+        if (simState.water === 0 && simState.syrupCl > 0) {
+          // Sirop pur
+          finalRGB = syrupPureColors[simState.syrup];
+          finalAlpha = 0.95;
+          finalLouche = simState.syrup === 'orgeat' ? 0.55 : 0.0;
+        } else if (simState.water > 0 && simState.syrupCl > 0) {
+          // Sirop à l'eau sans pastis
+          const dil = Math.min(1, simState.water / (simState.syrupCl * 14));
+          finalRGB = lerpColor(syrupPureColors[simState.syrup], [235, 245, 250], dil * 0.72);
+          finalAlpha = lerpVal(0.9, 0.45, dil);
+          finalLouche = simState.syrup === 'orgeat' ? lerpVal(0.55, 0.18, dil) : 0;
+        } else {
+          // Eau pure
+          finalRGB = [184, 224, 246];
+          finalAlpha = 0.42;
+          finalLouche = 0;
+        }
+      } else {
+        // Présence de pastis : interpolation selon le ratio réel eau / pastis
+        const ratio = simState.water / simState.pastis;
+        const sample = sampleStops(variantColorCurves[simState.syrup], ratio);
+        finalRGB = [...sample.rgb];
+        finalAlpha = sample.alpha;
+        finalLouche = sample.louche;
+
+        // Modulation subtile selon la quantité réelle de sirop par rapport à la dose de pastis
+        if (simState.syrup !== 'nature') {
+          const idealSyrup = Math.max(0.5, simState.pastis * 0.5);
+          const syrupStrength = Math.max(0, Math.min(1, simState.syrupCl / (idealSyrup * 2)));
+          if (syrupStrength > 0.5) {
+            // Plus de sirop -> couleur plus saturée vers le sirop pur
+            finalRGB = lerpColor(finalRGB, syrupPureColors[simState.syrup], (syrupStrength - 0.5) * 0.55);
+          } else {
+            // Peu de sirop pour beaucoup de pastis -> tire légèrement vers le pastis nature
+            const natSample = sampleStops(variantColorCurves.nature, ratio);
+            finalRGB = lerpColor(natSample.rgb, finalRGB, 0.45 + syrupStrength * 1.1);
+          }
+        }
+      }
+
+      liquidRect.setAttribute('fill', `rgb(${finalRGB[0]}, ${finalRGB[1]}, ${finalRGB[2]})`);
+      liquidRect.setAttribute('opacity', finalAlpha.toFixed(2));
+      loucheLayer.setAttribute('opacity', finalLouche.toFixed(2));
+
+      // Rendu des paillettes d'anéthole si glaçons ajoutés AVANT l'eau
+      const flakesGroup = document.getElementById('anethole-flakes-group');
+      flakesGroup.innerHTML = '';
+      if (simState.iceBeforeWater && simState.pastis > 0 && liquidHeight > 12) {
+        const flakeSeeds = [
+          { x: 84, y: 0.18, r: 2.3 }, { x: 112, y: 0.30, r: 2.8 }, { x: 145, y: 0.22, r: 2.1 },
+          { x: 96, y: 0.48, r: 2.6 }, { x: 132, y: 0.55, r: 2.4 }, { x: 156, y: 0.40, r: 2.0 },
+          { x: 105, y: 0.72, r: 2.5 }, { x: 138, y: 0.78, r: 2.2 }, { x: 88, y: 0.65, r: 1.9 },
+          { x: 124, y: 0.14, r: 2.5 }, { x: 148, y: 0.66, r: 2.3 }, { x: 118, y: 0.84, r: 2.0 },
+        ];
+        flakeSeeds.forEach((f) => {
+          const fy = liquidY + f.y * (liquidHeight - 8) + 4;
+          const el = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+          const pts = `${f.x},${fy - f.r} ${f.x + f.r},${fy} ${f.x},${fy + f.r} ${f.x - f.r},${fy}`;
+          el.setAttribute('points', pts);
+          el.setAttribute('fill', '#FFFDF5');
+          el.setAttribute('opacity', '0.9');
+          flakesGroup.appendChild(el);
+        });
+      }
+
+      // Rendu des glaçons flottants dans le verre
+      const iceGroup = document.getElementById('ice-cubes-group');
+      iceGroup.innerHTML = '';
+      const iceOffsets = [
+        { dx: -30, dy: 4, rot: -12 },
+        { dx: 12, dy: 8, rot: 14 },
+        { dx: -10, dy: 24, rot: 7 },
+        { dx: 26, dy: 28, rot: -18 },
+        { dx: -28, dy: 34, rot: 11 },
+      ];
+      for (let i = 0; i < simState.iceCount; i++) {
+        const pos = iceOffsets[i];
+        const baseIceY = liquidHeight > 28 ? Math.max(48, liquidY + pos.dy) : 252 - i * 16;
+        const cx = 120 + pos.dx;
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.setAttribute('class', 'ice-cube-bob');
+        g.style.setProperty('--rot', pos.rot + 'deg');
+        g.innerHTML = `
+          <rect x="${cx - 13}" y="${baseIceY}" width="26" height="24" rx="5"
+                fill="#FFFFFF" fill-opacity="0.72" stroke="#163E59" stroke-width="2"
+                transform="rotate(${pos.rot} ${cx} ${baseIceY + 12})"/>
+          <line x1="${cx - 7}" y1="${baseIceY + 6}" x2="${cx + 5}" y2="${baseIceY + 6}"
+                stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"
+                transform="rotate(${pos.rot} ${cx} ${baseIceY + 12})"/>
+        `;
+        iceGroup.appendChild(g);
+      }
+
+      computePastisVerdict(totalVol, isOverflow);
+    }
+
+    function computePastisVerdict(totalVol, isOverflow) {
+      const { pastis, water, syrupCl, iceCount, iceBeforeWater, syrup } = simState;
+      const variantLabel = {
+        nature: 'Pastis Nature',
+        orgeat: 'Mauresque',
+        menthe: 'Perroquet',
+        grenadine: 'Tomate',
+      }[syrup];
+
+      let score = 0;
+      let title = '';
+      let desc = '';
+
+      if (pastis === 0 && water === 0 && syrupCl === 0) {
+        score = 0;
+        title = 'Verre vide — Alerte sécheresse !';
+        desc = 'Un verre vide à l’heure de l’apéro est strictement contraire aux conventions de la Piv’stillerie.';
+      } else if (pastis === 0 && water === 0 && syrupCl > 0) {
+        score = 1;
+        title = 'Du sirop pur au fond du verre ?';
+        desc = `C’est très sucré, mais il manque l’eau… et surtout le pastis pour en faire un vrai ${variantLabel} !`;
+      } else if (pastis === 0 && water > 0) {
+        score = 2;
+        title = syrup === 'nature' ? 'De l’eau ? Sur mon port ?' : `Un simple sirop à l’eau !`;
+        desc = syrup === 'nature'
+          ? 'C’est très hydratant, certes, mais le Capitaine vous regarde avec une profonde inquiétude.'
+          : `Parfait pour les enfants sur la plage, mais sans pastis ce n’est pas encore ${syrup === 'menthe' ? 'un Perroquet' : 'une ' + variantLabel} !`;
+      } else if (iceBeforeWater) {
+        score = 2;
+        title = 'SACRILÈGE ! Pastis pailleté !';
+        desc = 'Jamais les glaçons AVANT l’eau, malheureux ! Le froid a fait cristalliser l’anéthole en paillettes blanches. Videz ce verre et mettez l’eau d’abord !';
+      } else if (water === 0 && pastis > 0) {
+        score = 3;
+        title = 'Pur jus de Marseillais (1 : 0) !';
+        desc = syrup === 'nature'
+          ? 'Ça attaque l’estomac ! Ambré foncé, zéro dilution : illégal dans 4 cantons avant de reprendre la barre.'
+          : `Un ${variantLabel} sans une goutte d’eau ? C’est un sirop de pirate à 45°, rajoutez vite de l’eau fraîche !`;
+      } else {
+        // Calcul basé STRICTEMENT sur le ratio réel eau / pastis
+        const ratio = water / pastis;
+        const ratioStr = `1 : ${ratio.toFixed(1)}`;
+        const sizeNote =
+          pastis >= 5
+            ? ' Attention tout de même, c’est un verre de géant !'
+            : pastis >= 4
+              ? ' Format double du Capitaine, à siroter lentement !'
+              : '';
+
+        // Cohérence du sirop pour les variantes (idéal ~0.5x la dose de pastis, tolérance large)
+        let syrupPenalty = 0;
+        let syrupNote = '';
+        if (syrup !== 'nature') {
+          const idealSyrup = Math.max(0.5, pastis * 0.5);
+          if (syrupCl > idealSyrup * 2.1) {
+            syrupPenalty = 1;
+            syrupNote = ' Un poil trop sucré sur le sirop.';
+          } else if (syrupCl < idealSyrup * 0.4) {
+            syrupPenalty = 1;
+            syrupNote = ' Le sirop est un peu timide pour cette dose de pastis.';
+          }
+        }
+
+        if (ratio < 1.5) {
+          score = 4;
+          if (syrup === 'menthe') {
+            title = `Perroquet kaki trop foncé (${ratioStr})`;
+            desc = 'Ton Perroquet a le plumage beaucoup trop sombre ! Rajoute de l’eau fraîche pour réveiller ce vert menthe.' + sizeNote;
+          } else if (syrup === 'grenadine') {
+            title = `Tomate beaucoup trop corsée (${ratioStr})`;
+            desc = 'Rouge grenat quasi pur ! Ajoute de l’eau avant que le verre ne déclenche l’alerte incendie.' + sizeNote;
+          } else if (syrup === 'orgeat') {
+            title = `Mauresque ambrée de pirate (${ratioStr})`;
+            desc = 'Trop de pastis, pas assez d’eau : ta Mauresque est encore trop foncée pour voir le Vieux-Port.' + sizeNote;
+          } else {
+            title = `Ambré corsé de marin (${ratioStr})`;
+            desc = 'C’est très foncé et très costaud ! À ce dosage, tu vas voir deux cochonnets sur le terrain.' + sizeNote;
+          }
+        } else if (ratio < 3.5) {
+          score = 7;
+          if (syrup === 'menthe') {
+            title = `Perroquet bien tassé (${ratioStr})`;
+            desc = 'Un vert profond plein de caractère, encore un peu d’eau pour atteindre le plumage idéal.' + syrupNote + sizeNote;
+          } else if (syrup === 'grenadine') {
+            title = `Tomate bien relevée (${ratioStr})`;
+            desc = 'Joli rouge soutenu du Midi, un petit trait d’eau en plus et elle sera parfaite.' + syrupNote + sizeNote;
+          } else if (syrup === 'orgeat') {
+            title = `Mauresque généreuse (${ratioStr})`;
+            desc = 'Bien dorée et parfumée ! Un soupçon d’eau supplémentaire lui donnera son blanc-ivoire parfait.' + syrupNote + sizeNote;
+          } else {
+            title = `Jaune bien tassé du Midi (${ratioStr})`;
+            desc = 'Un jaune doré soutenu et riche en anis. Parfaitement acceptable après 18h00 en terrasse.' + sizeNote;
+          }
+        } else if (ratio >= 4.5 && ratio <= 5.5) {
+          score = iceCount >= 1 && iceCount <= 3 ? 10 : 9;
+          const iceHint = iceCount === 0 ? ' Ajoute 1 ou 2 glaçons (après l’eau !) pour le 10/10.' : '';
+          if (syrup === 'orgeat') {
+            title = `Une Mauresque digne du Vieux-Port ! (${ratioStr})`;
+            desc = 'Blanc-ivoire crémeux, trouble parfait et ratio d’or respecté au millimètre !' + syrupNote + iceHint + sizeNote;
+          } else if (syrup === 'menthe') {
+            title = `Un Perroquet de compétition ! (${ratioStr})`;
+            desc = 'Vert menthe laiteux éclatant, équilibre magistral validé par tous les anciens du port !' + syrupNote + iceHint + sizeNote;
+          } else if (syrup === 'grenadine') {
+            title = `La Tomate parfaite de l’été ! (${ratioStr})`;
+            desc = 'Rose-corail laiteux vibrant, fraîcheur impeccable et ratio 1:5 maîtrisé !' + syrupNote + iceHint + sizeNote;
+          } else {
+            title = `Le Ratio d’Or ! (${ratioStr})`;
+            desc = 'Jaune laiteux lumineux certifié Maître Distillateur de La Piv’stillerie !' + iceHint + sizeNote;
+          }
+        } else if (ratio < 4.5 || ratio <= 7.0) {
+          score = 8;
+          title = `${variantLabel} très équilibré (${ratioStr})`;
+          desc = `Très beau trouble laiteux, on frôle le ratio d’or 1 : 5 !${syrupNote}${sizeNote}`;
+        } else if (ratio <= 10.0) {
+          score = 6;
+          if (syrup === 'grenadine') {
+            title = `Cette Tomate est trop noyée ! (${ratioStr})`;
+            desc = 'Rose très pâle… Il y a beaucoup d’eau pour cette petite goutte de pastis.' + sizeNote;
+          } else if (syrup === 'menthe') {
+            title = `Perroquet un peu délavé (${ratioStr})`;
+            desc = 'Le vert pâlit à vue d’œil ! Remonte un peu le pastis ou baisse l’eau.' + sizeNote;
+          } else if (syrup === 'orgeat') {
+            title = `Mauresque version piscine (${ratioStr})`;
+            desc = 'Blanc translucide très léger, idéal si tu dois encore jouer trois parties de pétanque.' + sizeNote;
+          } else {
+            title = `Piscine d’été rafraîchissante (${ratioStr})`;
+            desc = 'Jaune pâle et aqueux : très léger sur l’anis, un peu trop d’eau pour les puristes.' + sizeNote;
+          }
+        } else {
+          score = 4;
+          title = `Souvenir lointain d’anis… (${ratioStr})`;
+          desc = `De l’eau de piscine parfumée au souvenir d’un ${variantLabel} ouvert à la table voisine !`;
+        }
+
+        score = Math.max(1, score - syrupPenalty);
+
+        if (isOverflow) {
+          score = Math.max(1, score - 2);
+          title = '⚠️ Ça déborde du verre !';
+          desc += ' Et vous en avez mis partout sur la terrasse (max 32 cl) !';
+        }
+      }
+
+      document.getElementById('verdict-score').textContent = `${score} / 10`;
+      document.getElementById('verdict-title').textContent = title;
+      document.getElementById('verdict-desc').textContent = desc;
+    }
+
+    // =========================================================================
+    // 4. PÉTANQUE DU PORT — MINI-JEU CANVAS HTML5 (ONGLET 3)
+    // =========================================================================
+    const petanque = {
+      canvas: null,
+      ctx: null,
+      width: 0,
+      height: 0,
+      balls: [],
+      cochonnet: null,
+      playerBoulesLeft: 3,
+      scorePlayer: 0,
+      scoreAI: 0,
+      activeBall: null,
+      isDragging: false,
+      dragStart: { x: 0, y: 0 },
+      dragCurr: { x: 0, y: 0 },
+      meneOver: false,
+      gravelDots: [],
+      animId: null,
+    };
+
+    function initPetanque() {
+      petanque.canvas = document.getElementById('petanque-canvas');
+      if (!petanque.canvas) return;
+      petanque.ctx = petanque.canvas.getContext('2d');
+      bindPetanqueEvents();
+      resizePetanqueCanvas();
+    }
+
+    function resizePetanqueCanvas() {
+      const wrapper = document.getElementById('petanque-wrapper');
+      if (!wrapper || !petanque.canvas) return;
+      const rect = wrapper.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+
+      const prevW = petanque.width;
+      petanque.width = Math.floor(rect.width);
+      petanque.height = Math.floor(rect.height);
+      petanque.canvas.width = petanque.width;
+      petanque.canvas.height = petanque.height;
+
+      // Générer les grains de gravier une fois à la taille du terrain
+      petanque.gravelDots = [];
+      for (let i = 0; i < 240; i++) {
+        petanque.gravelDots.push({
+          x: Math.random() * petanque.width,
+          y: Math.random() * petanque.height,
+          r: 0.8 + Math.random() * 1.8,
+          c: i % 3 === 0 ? 'rgba(130, 102, 68, 0.35)' : 'rgba(255, 248, 228, 0.45)',
+        });
+      }
+
+      if (prevW === 0 || !petanque.cochonnet) {
+        startNewPetanqueMene(false);
+      } else {
+        // Recaler la boule en attente en bas au centre
+        if (petanque.activeBall && !petanque.activeBall.launched) {
+          petanque.activeBall.x = petanque.width / 2;
+          petanque.activeBall.y = petanque.height - 52;
+        }
+      }
+
+      if (!petanque.animId) {
+        petanqueLoop();
+      }
+    }
+
+    function startNewPetanqueMene(announce = true) {
+      if (!petanque.width) return;
+      const W = petanque.width;
+      const H = petanque.height;
+
+      petanque.balls = [];
+      petanque.playerBoulesLeft = 3;
+      petanque.meneOver = false;
+      petanque.isDragging = false;
+
+      // Placer le cochonnet dans le tiers supérieur du terrain
+      petanque.cochonnet = {
+        x: W * (0.3 + Math.random() * 0.4),
+        y: H * (0.18 + Math.random() * 0.18),
+        vx: 0,
+        vy: 0,
+        r: 8,
+        mass: 0.45,
+        type: 'cochonnet',
+      };
+
+      // Placer 2 boules adverses (rouges) à distance réaliste du cochonnet
+      for (let i = 0; i < 2; i++) {
+        const angle = (Math.PI * 0.25) + i * Math.PI * 0.9 + (Math.random() - 0.5) * 0.5;
+        const dist = 34 + Math.random() * 58;
+        const bx = Math.max(36, Math.min(W - 36, petanque.cochonnet.x + Math.cos(angle) * dist));
+        const by = Math.max(36, Math.min(H * 0.55, petanque.cochonnet.y + Math.sin(angle) * dist));
+        petanque.balls.push({
+          x: bx,
+          y: by,
+          vx: 0,
+          vy: 0,
+          r: 15,
+          mass: 1,
+          type: 'ai',
+          launched: true,
+        });
+      }
+
+      spawnPlayerBoule();
+      updatePetanqueHUD();
+      if (announce) {
+        setPetanqueCommentary('🎯 Nouvelle mène ! Tu tires ou tu pointes ?');
+      }
+    }
+
+    function spawnPlayerBoule() {
+      if (petanque.playerBoulesLeft <= 0) {
+        petanque.activeBall = null;
+        return;
+      }
+      petanque.activeBall = {
+        x: petanque.width / 2,
+        y: petanque.height - 52,
+        vx: 0,
+        vy: 0,
+        r: 15,
+        mass: 1,
+        type: 'player',
+        launched: false,
+      };
+    }
+
+    function setPetanqueCommentary(text) {
+      const el = document.getElementById('petanque-commentary');
+      if (el) el.textContent = text;
+    }
+
+    function updatePetanqueHUD() {
+      document.getElementById('petanque-score-player').textContent = petanque.scorePlayer;
+      document.getElementById('petanque-score-ai').textContent = petanque.scoreAI;
+      document.getElementById('petanque-boules-left').textContent = petanque.playerBoulesLeft;
+
+      // Calcul distance la plus proche
+      if (!petanque.cochonnet) return;
+      const playerBalls = petanque.balls.filter((b) => b.type === 'player' && !b.out);
+      const aiBalls = petanque.balls.filter((b) => b.type === 'ai' && !b.out);
+
+      const minDist = (list) => {
+        if (!list.length) return Infinity;
+        return Math.min(...list.map((b) => Math.hypot(b.x - petanque.cochonnet.x, b.y - petanque.cochonnet.y)));
+      };
+
+      const dP = minDist(playerBalls);
+      const dA = minDist(aiBalls);
+      const pxToCm = 0.65;
+      if (dP === Infinity && dA === Infinity) {
+        document.getElementById('petanque-dist-info').textContent = 'Distance la plus proche : —';
+      } else if (dP <= dA) {
+        document.getElementById('petanque-dist-info').textContent = `Vous menez à ${Math.max(1, Math.round((dP - 23) * pxToCm))} cm !`;
+      } else {
+        document.getElementById('petanque-dist-info').textContent = `Adversaire à ${Math.max(1, Math.round((dA - 23) * pxToCm))} cm`;
+      }
+    }
+
+    function getPetanquePointerPos(e) {
+      const rect = petanque.canvas.getBoundingClientRect();
+      const cx = e.touches ? e.touches[0].clientX : e.clientX;
+      const cy = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: ((cx - rect.left) / rect.width) * petanque.width,
+        y: ((cy - rect.top) / rect.height) * petanque.height,
+      };
+    }
+
+    function anyBallMoving() {
+      const all = [...petanque.balls, petanque.cochonnet].filter(Boolean);
+      return all.some((b) => Math.hypot(b.vx, b.vy) > 0.12);
+    }
+
+    function bindPetanqueEvents() {
+      const c = petanque.canvas;
+
+      const onDown = (e) => {
+        if (e.touches) e.preventDefault();
+        if (petanque.meneOver || !petanque.activeBall || petanque.activeBall.launched || anyBallMoving()) return;
+        const pos = getPetanquePointerPos(e);
+        const dist = Math.hypot(pos.x - petanque.activeBall.x, pos.y - petanque.activeBall.y);
+        if (dist <= 52) {
+          petanque.isDragging = true;
+          petanque.dragStart = { x: petanque.activeBall.x, y: petanque.activeBall.y };
+          petanque.dragCurr = pos;
+        }
+      };
+
+      const onMove = (e) => {
+        if (!petanque.isDragging) return;
+        if (e.touches) e.preventDefault();
+        petanque.dragCurr = getPetanquePointerPos(e);
+      };
+
+      const onUp = (e) => {
+        if (!petanque.isDragging) return;
+        if (e.touches) e.preventDefault();
+        petanque.isDragging = false;
+
+        const dx = petanque.dragStart.x - petanque.dragCurr.x;
+        const dy = petanque.dragStart.y - petanque.dragCurr.y;
+        const pull = Math.hypot(dx, dy);
+
+        if (pull < 14) return; // Tir annulé si trop faible
+
+        const maxPull = 135;
+        const clamped = Math.min(pull, maxPull);
+        const speed = (clamped / maxPull) * 18.5;
+        const angle = Math.atan2(dy, dx);
+
+        const b = petanque.activeBall;
+        b.vx = Math.cos(angle) * speed;
+        b.vy = Math.sin(angle) * speed;
+        b.launched = true;
+        b.hitOpponent = false;
+        petanque.balls.push(b);
+        petanque.playerBoulesLeft -= 1;
+        petanque.activeBall = null;
+        updatePetanqueHUD();
+        setPetanqueCommentary('💨 La boule file sur le gravier...');
+      };
+
+      c.addEventListener('mousedown', onDown);
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onUp);
+
+      c.addEventListener('touchstart', onDown, { passive: false });
+      c.addEventListener('touchmove', onMove, { passive: false });
+      c.addEventListener('touchend', onUp, { passive: false });
+    }
+
+    function resolveCircleCollision(a, b) {
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const dist = Math.hypot(dx, dy);
+      const minDist = a.r + b.r;
+      if (dist === 0 || dist >= minDist) return false;
+
+      // Séparation anti-chevauchement
+      const nx = dx / dist;
+      const ny = dy / dist;
+      const overlap = minDist - dist;
+      const totalMass = a.mass + b.mass;
+      a.x -= nx * overlap * (b.mass / totalMass);
+      a.y -= ny * overlap * (b.mass / totalMass);
+      b.x += nx * overlap * (a.mass / totalMass);
+      b.y += ny * overlap * (a.mass / totalMass);
+
+      // Impulsion élastique
+      const rvx = b.vx - a.vx;
+      const rvy = b.vy - a.vy;
+      const velAlongNormal = rvx * nx + rvy * ny;
+      if (velAlongNormal > 0) return false;
+
+      const restitution = 0.82;
+      const j = (-(1 + restitution) * velAlongNormal) / (1 / a.mass + 1 / b.mass);
+      const ix = j * nx;
+      const iy = j * ny;
+
+      a.vx -= ix / a.mass;
+      a.vy -= iy / a.mass;
+      b.vx += ix / b.mass;
+      b.vy += iy / b.mass;
+
+      // Détecter un beau carreau !
+      if ((a.type === 'player' && b.type === 'ai') || (a.type === 'ai' && b.type === 'player')) {
+        setPetanqueCommentary('💥 CARREAU PARFAIT ! Quelle frappe du Capitaine !');
+      } else if (a.type === 'cochonnet' || b.type === 'cochonnet') {
+        setPetanqueCommentary('🟡 Le cochonnet a bougé ! Tout est relancé !');
+      }
+      return true;
+    }
+
+    function evaluatePetanqueMene() {
+      petanque.meneOver = true;
+      const cochonnet = petanque.cochonnet;
+      const pDists = petanque.balls
+        .filter((b) => b.type === 'player' && !b.out)
+        .map((b) => Math.hypot(b.x - cochonnet.x, b.y - cochonnet.y))
+        .sort((a, b) => a - b);
+
+      const aDists = petanque.balls
+        .filter((b) => b.type === 'ai' && !b.out)
+        .map((b) => Math.hypot(b.x - cochonnet.x, b.y - cochonnet.y))
+        .sort((a, b) => a - b);
+
+      const bestP = pDists.length ? pDists[0] : Infinity;
+      const bestA = aDists.length ? aDists[0] : Infinity;
+
+      if (bestP < bestA) {
+        const pts = pDists.filter((d) => d < bestA).length;
+        petanque.scorePlayer += pts;
+        setPetanqueCommentary(
+          pts >= 3
+            ? `🏆 MÈNE ROYALE ! +${pts} points ! Tournée générale sur le port !`
+            : `🎉 Bien joué ! Vous remportez la mène (+${pts} pt${pts > 1 ? 's' : ''}) !`
+        );
+      } else if (bestA < bestP) {
+        const pts = aDists.filter((d) => d < bestP).length;
+        petanque.scoreAI += pts;
+        setPetanqueCommentary(
+          bestP === Infinity
+            ? `🌊 Tout droit dans le Vieux-Port ! L'adversaire prend +${pts} pt${pts > 1 ? 's' : ''}.`
+            : `😅 Fanny sous le comptoir ! L'adversaire marque +${pts} pt${pts > 1 ? 's' : ''}.`
+        );
+      } else {
+        setPetanqueCommentary('🤝 Égalité parfaite au millimètre !');
+      }
+
+      updatePetanqueHUD();
+    }
+
+    function updatePetanquePhysics() {
+      const all = [...petanque.balls.filter((b) => !b.out), petanque.cochonnet].filter(Boolean);
+      const friction = 0.968;
+      let moving = false;
+
+      for (const b of all) {
+        b.x += b.vx;
+        b.y += b.vy;
+        b.vx *= friction;
+        b.vy *= friction;
+
+        if (Math.hypot(b.vx, b.vy) < 0.08) {
+          b.vx = 0;
+          b.vy = 0;
+        } else {
+          moving = true;
+        }
+
+        // Bords en bois du boulodrome
+        const pad = 16;
+        if (b.x - b.r < pad) {
+          b.x = pad + b.r;
+          b.vx = -b.vx * 0.55;
+        } else if (b.x + b.r > petanque.width - pad) {
+          b.x = petanque.width - pad - b.r;
+          b.vx = -b.vx * 0.55;
+        }
+
+        if (b.y - b.r < pad) {
+          if (b.type === 'player' && Math.abs(b.vy) > 4.5) {
+            // Sortie dans le Vieux-Port si tir trop fort
+            b.out = true;
+            b.vx = 0;
+            b.vy = 0;
+            setPetanqueCommentary('🌊 Plouf ! Tout droit dans le Vieux-Port !');
+          } else {
+            b.y = pad + b.r;
+            b.vy = -b.vy * 0.55;
+          }
+        } else if (b.y + b.r > petanque.height - pad) {
+          b.y = petanque.height - pad - b.r;
+          b.vy = -b.vy * 0.55;
+        }
+      }
+
+      // Collisions entre toutes les paires
+      for (let i = 0; i < all.length; i++) {
+        for (let j = i + 1; j < all.length; j++) {
+          if (!all[i].out && !all[j].out) {
+            resolveCircleCollision(all[i], all[j]);
+          }
+        }
+      }
+
+      // Vérifier si le lancer est terminé
+      if (!moving && !petanque.activeBall && !petanque.meneOver) {
+        updatePetanqueHUD();
+        if (petanque.playerBoulesLeft > 0) {
+          spawnPlayerBoule();
+        } else {
+          evaluatePetanqueMene();
+        }
+      }
+    }
+
+    function drawPetanque() {
+      const ctx = petanque.ctx;
+      const W = petanque.width;
+      const H = petanque.height;
+      if (!ctx || !W || !H) return;
+
+      // Fond gravier provençal
+      ctx.fillStyle = '#DFC79A';
+      ctx.fillRect(0, 0, W, H);
+
+      // Grains de gravier
+      for (const d of petanque.gravelDots) {
+        ctx.fillStyle = d.c;
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Bordure bois du terrain
+      ctx.strokeStyle = '#7A4F2B';
+      ctx.lineWidth = 14;
+      ctx.strokeRect(7, 7, W - 14, H - 14);
+
+      // Cercle de lancer en bas
+      ctx.save();
+      ctx.strokeStyle = 'rgba(22, 62, 89, 0.45)';
+      ctx.lineWidth = 2.5;
+      ctx.setLineDash([6, 6]);
+      ctx.beginPath();
+      ctx.arc(W / 2, H - 52, 34, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+
+      // Ligne de visée lance-pierre si drag actif
+      if (petanque.isDragging && petanque.activeBall) {
+        const dx = petanque.dragStart.x - petanque.dragCurr.x;
+        const dy = petanque.dragStart.y - petanque.dragCurr.y;
+        const pull = Math.min(135, Math.hypot(dx, dy));
+        const angle = Math.atan2(dy, dx);
+        const powerRatio = pull / 135;
+
+        // Flèche de trajectoire vers l'avant
+        const targetX = petanque.activeBall.x + Math.cos(angle) * (pull * 1.6);
+        const targetY = petanque.activeBall.y + Math.sin(angle) * (pull * 1.6);
+
+        ctx.save();
+        ctx.strokeStyle = powerRatio > 0.75 ? '#D95D39' : '#163E59';
+        ctx.lineWidth = 4;
+        ctx.setLineDash([8, 6]);
+        ctx.beginPath();
+        ctx.moveTo(petanque.activeBall.x, petanque.activeBall.y);
+        ctx.lineTo(targetX, targetY);
+        ctx.stroke();
+
+        // Pointe de flèche
+        ctx.setLineDash([]);
+        ctx.fillStyle = powerRatio > 0.75 ? '#D95D39' : '#163E59';
+        ctx.beginPath();
+        ctx.arc(targetX, targetY, 6, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Jauge de puissance à côté de la boule
+        const barW = 70;
+        const barH = 10;
+        const bx = petanque.activeBall.x - barW / 2;
+        const by = petanque.activeBall.y + 28;
+        ctx.fillStyle = '#FDF6E3';
+        ctx.fillRect(bx, by, barW, barH);
+        ctx.fillStyle = powerRatio > 0.75 ? '#D95D39' : '#5C7A32';
+        ctx.fillRect(bx, by, barW * powerRatio, barH);
+        ctx.strokeStyle = '#1A1A1A';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(bx, by, barW, barH);
+        ctx.restore();
+      }
+
+      // Dessiner le cochonnet + toutes les boules
+      const drawSphere = (b) => {
+        if (!b || b.out) return;
+        // Ombre portée
+        ctx.fillStyle = 'rgba(26, 26, 26, 0.25)';
+        ctx.beginPath();
+        ctx.ellipse(b.x + 3, b.y + 4, b.r, b.r * 0.85, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        const grad = ctx.createRadialGradient(b.x - b.r * 0.35, b.y - b.r * 0.35, 1, b.x, b.y, b.r);
+        if (b.type === 'cochonnet') {
+          grad.addColorStop(0, '#FFF4A3');
+          grad.addColorStop(0.6, '#F5C542');
+          grad.addColorStop(1, '#B88314');
+        } else if (b.type === 'player') {
+          grad.addColorStop(0, '#FFFFFF');
+          grad.addColorStop(0.45, '#CBD5E1');
+          grad.addColorStop(1, '#475569');
+        } else {
+          grad.addColorStop(0, '#FF9E80');
+          grad.addColorStop(0.5, '#D95D39');
+          grad.addColorStop(1, '#7D2812');
+        }
+
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = '#1A1A1A';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Stries décoratives sur les boules métalliques
+        if (b.type !== 'cochonnet') {
+          ctx.strokeStyle = 'rgba(26, 26, 26, 0.25)';
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.arc(b.x, b.y, b.r * 0.62, 0.2, Math.PI * 0.85);
+          ctx.stroke();
+        }
+      };
+
+      drawSphere(petanque.cochonnet);
+      for (const b of petanque.balls) drawSphere(b);
+      if (petanque.activeBall) drawSphere(petanque.activeBall);
+    }
+
+    function petanqueLoop() {
+      const isVisible = document.getElementById('tab-petanque').classList.contains('active');
+      if (isVisible) {
+        updatePetanquePhysics();
+        drawPetanque();
+      }
+      petanque.animId = requestAnimationFrame(petanqueLoop);
+    }
+
+    // =========================================================================
+    // 5. APÉRO RUSH — MINI-JEU ARCADE 30S CANVAS HTML5 (ONGLET 4)
+    // =========================================================================
+    const rush = {
+      canvas: null,
+      ctx: null,
+      width: 0,
+      height: 0,
+      running: false,
+      score: 0,
+      bestScore: parseInt(localStorage.getItem('pivstillerie_rush_best') || '0', 10),
+      timeLeft: 30,
+      lastFrameTime: 0,
+      spawnTimer: 0,
+      playerX: 150,
+      playerW: 72,
+      playerH: 74,
+      keys: { left: false, right: false },
+      items: [],
+      popups: [],
+      animId: null,
+    };
+
+    const rushItemTypes = [
+      { kind: 'olive', emoji: '🫒', pts: 10, weight: 32, speed: 170, radius: 19 },
+      { kind: 'ice', emoji: '🧊', pts: 15, weight: 22, speed: 195, radius: 19 },
+      { kind: 'anise', emoji: '⭐', pts: 20, weight: 18, speed: 215, radius: 20 },
+      { kind: 'bottle', emoji: '🍾', pts: 50, weight: 8, speed: 255, radius: 22 },
+      { kind: 'rain', emoji: '💧', pts: -25, weight: 12, speed: 220, radius: 18 },
+      { kind: 'seagull', emoji: '🕊️', pts: -30, weight: 8, speed: 245, radius: 21 },
+    ];
+
+    function initAperoRush() {
+      rush.canvas = document.getElementById('rush-canvas');
+      if (!rush.canvas) return;
+      rush.ctx = rush.canvas.getContext('2d');
+      document.getElementById('rush-best').textContent = rush.bestScore;
+      bindRushEvents();
+      resizeRushCanvas();
+    }
+
+    function resizeRushCanvas() {
+      const wrapper = document.getElementById('rush-wrapper');
+      if (!wrapper || !rush.canvas) return;
+      const rect = wrapper.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+
+      rush.width = Math.floor(rect.width);
+      rush.height = Math.floor(rect.height);
+      rush.canvas.width = rush.width;
+      rush.canvas.height = rush.height;
+      rush.playerX = Math.max(rush.playerW / 2, Math.min(rush.width - rush.playerW / 2, rush.playerX || rush.width / 2));
+
+      if (!rush.running) drawRushScene();
+    }
+
+    function bindRushEvents() {
+      const c = rush.canvas;
+
+      const moveToClientX = (clientX) => {
+        const rect = c.getBoundingClientRect();
+        const x = ((clientX - rect.left) / rect.width) * rush.width;
+        rush.playerX = Math.max(rush.playerW / 2, Math.min(rush.width - rush.playerW / 2, x));
+      };
+
+      c.addEventListener('mousemove', (e) => {
+        if (!rush.running) return;
+        moveToClientX(e.clientX);
+      });
+
+      c.addEventListener(
+        'touchstart',
+        (e) => {
+          if (!rush.running) return;
+          e.preventDefault();
+          moveToClientX(e.touches[0].clientX);
+        },
+        { passive: false }
+      );
+
+      c.addEventListener(
+        'touchmove',
+        (e) => {
+          if (!rush.running) return;
+          e.preventDefault();
+          moveToClientX(e.touches[0].clientX);
+        },
+        { passive: false }
+      );
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') rush.keys.left = true;
+        if (e.key === 'ArrowRight') rush.keys.right = true;
+      });
+      window.addEventListener('keyup', (e) => {
+        if (e.key === 'ArrowLeft') rush.keys.left = false;
+        if (e.key === 'ArrowRight') rush.keys.right = false;
+      });
+    }
+
+    function startAperoRush() {
+      resizeRushCanvas();
+      rush.running = true;
+      rush.score = 0;
+      rush.timeLeft = 30;
+      rush.items = [];
+      rush.popups = [];
+      rush.spawnTimer = 0;
+      rush.playerX = rush.width / 2;
+      rush.lastFrameTime = performance.now();
+
+      document.getElementById('rush-overlay').classList.add('hidden');
+      document.getElementById('rush-score').textContent = '0';
+      document.getElementById('rush-time').textContent = '30.0s';
+      document.getElementById('rush-time-bar').style.width = '100%';
+
+      if (rush.animId) cancelAnimationFrame(rush.animId);
+      rushLoop(performance.now());
+    }
+
+    function spawnRushItem() {
+      const totalWeight = rushItemTypes.reduce((s, i) => s + i.weight, 0);
+      let r = Math.random() * totalWeight;
+      let picked = rushItemTypes[0];
+      for (const t of rushItemTypes) {
+        r -= t.weight;
+        if (r <= 0) {
+          picked = t;
+          break;
+        }
+      }
+
+      rush.items.push({
+        ...picked,
+        x: 28 + Math.random() * (rush.width - 56),
+        y: -26,
+        vy: picked.speed * (0.9 + Math.random() * 0.35),
+      });
+    }
+
+    function endAperoRush() {
+      rush.running = false;
+      if (rush.score > rush.bestScore) {
+        rush.bestScore = rush.score;
+        localStorage.setItem('pivstillerie_rush_best', String(rush.bestScore));
+        document.getElementById('rush-best').textContent = rush.bestScore;
+      }
+
+      let title = 'Touriste en claquettes-chaussettes';
+      let tag = 'Score : ' + rush.score + ' pts';
+      let desc = 'Encore un peu d’entraînement avant de prétendre à la table réservée du Vieux-Port !';
+
+      if (rush.score >= 300) {
+        title = 'Capitaine de la Piv’stillerie !';
+        desc = 'Légendaire ! Même les mouettes vous saluent respectueusement quand vous sortez les glaçons.';
+      } else if (rush.score >= 140) {
+        title = 'Habitué du Bar des Sports';
+        desc = 'Solide coup de poignet ! Le patron vous sert déjà votre verre avant même que vous passiez la porte.';
+      }
+
+      document.getElementById('rush-overlay-tag').textContent = tag;
+      document.getElementById('rush-overlay-title').textContent = title;
+      document.getElementById('rush-overlay-desc').textContent = desc;
+      document.getElementById('rush-overlay').classList.remove('hidden');
+    }
+
+    function drawRushScene() {
+      const ctx = rush.ctx;
+      const W = rush.width;
+      const H = rush.height;
+      if (!ctx || !W || !H) return;
+
+      // Ciel ensoleillé + mer en fond
+      const sky = ctx.createLinearGradient(0, 0, 0, H);
+      sky.addColorStop(0, '#F5C542');
+      sky.addColorStop(0.65, '#FDF0B5');
+      sky.addColorStop(0.66, '#23648E');
+      sky.addColorStop(1, '#163E59');
+      ctx.fillStyle = sky;
+      ctx.fillRect(0, 0, W, H);
+
+      // Soleil décoratif
+      ctx.fillStyle = 'rgba(253, 246, 227, 0.55)';
+      ctx.beginPath();
+      ctx.arc(W * 0.5, H * 0.62, 54, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Objets qui tombent
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      for (const item of rush.items) {
+        ctx.font = '32px sans-serif';
+        ctx.fillText(item.emoji, item.x, item.y);
+      }
+
+      // Grand verre de pastis contrôlé par le joueur
+      const px = rush.playerX;
+      const py = H - 14;
+      const topW = rush.playerW;
+      const botW = rush.playerW * 0.76;
+      const gh = rush.playerH;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(px - topW / 2, py - gh);
+      ctx.lineTo(px + topW / 2, py - gh);
+      ctx.lineTo(px + botW / 2, py);
+      ctx.lineTo(px - botW / 2, py);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(253, 246, 227, 0.85)';
+      ctx.fill();
+      ctx.lineWidth = 3.5;
+      ctx.strokeStyle = '#163E59';
+      ctx.stroke();
+
+      // Pastis dans le verre
+      ctx.beginPath();
+      ctx.moveTo(px - topW * 0.44, py - gh * 0.65);
+      ctx.lineTo(px + topW * 0.44, py - gh * 0.65);
+      ctx.lineTo(px + botW * 0.46, py - 5);
+      ctx.lineTo(px - botW * 0.46, py - 5);
+      ctx.closePath();
+      ctx.fillStyle = '#F5C542';
+      ctx.fill();
+      ctx.restore();
+
+      // Popups de points (+10, +50, -25...)
+      for (const p of rush.popups) {
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.font = 'bold 20px Oswald, sans-serif';
+        ctx.fillStyle = p.pts > 0 ? '#163E59' : '#D95D39';
+        ctx.strokeStyle = '#FDF6E3';
+        ctx.lineWidth = 4;
+        const txt = p.pts > 0 ? `+${p.pts}` : `${p.pts}`;
+        ctx.strokeText(txt, p.x, p.y);
+        ctx.fillText(txt, p.x, p.y);
+        ctx.restore();
+      }
+    }
+
+    function rushLoop(now) {
+      if (!rush.running) return;
+      const dt = Math.min(0.05, (now - rush.lastFrameTime) / 1000);
+      rush.lastFrameTime = now;
+
+      // Déplacement clavier
+      const keySpeed = 420;
+      if (rush.keys.left) rush.playerX -= keySpeed * dt;
+      if (rush.keys.right) rush.playerX += keySpeed * dt;
+      rush.playerX = Math.max(rush.playerW / 2, Math.min(rush.width - rush.playerW / 2, rush.playerX));
+
+      // Décompte du temps
+      rush.timeLeft = Math.max(0, rush.timeLeft - dt);
+      document.getElementById('rush-time').textContent = rush.timeLeft.toFixed(1) + 's';
+      document.getElementById('rush-time-bar').style.width = (rush.timeLeft / 30) * 100 + '%';
+
+      // Apparition d'objets (cadence progressive)
+      rush.spawnTimer -= dt;
+      if (rush.spawnTimer <= 0) {
+        spawnRushItem();
+        rush.spawnTimer = 0.42 + Math.random() * 0.28;
+      }
+
+      // Mise à jour objets & collisions avec le verre
+      const catchTopY = rush.height - 14 - rush.playerH;
+      const catchBotY = rush.height - 14;
+
+      for (let i = rush.items.length - 1; i >= 0; i--) {
+        const it = rush.items[i];
+        it.y += it.vy * dt;
+
+        const hitX = Math.abs(it.x - rush.playerX) < rush.playerW * 0.52 + it.radius * 0.5;
+        const hitY = it.y + it.radius * 0.5 >= catchTopY && it.y - it.radius * 0.5 <= catchBotY;
+
+        if (hitX && hitY) {
+          rush.score = Math.max(0, rush.score + it.pts);
+          document.getElementById('rush-score').textContent = rush.score;
+          rush.popups.push({ x: it.x, y: catchTopY - 8, pts: it.pts, life: 1 });
+          rush.items.splice(i, 1);
+          continue;
+        }
+
+        if (it.y > rush.height + 35) {
+          rush.items.splice(i, 1);
+        }
+      }
+
+      // Mise à jour popups
+      for (let i = rush.popups.length - 1; i >= 0; i--) {
+        rush.popups[i].y -= 48 * dt;
+        rush.popups[i].life -= 1.4 * dt;
+        if (rush.popups[i].life <= 0) rush.popups.splice(i, 1);
+      }
+
+      drawRushScene();
+
+      if (rush.timeLeft <= 0) {
+        endAperoRush();
+        return;
+      }
+
+      rush.animId = requestAnimationFrame(rushLoop);
+    }
+
+    // =========================================================================
+    // 6. LA BOUTIQUE & PANIER FONCTIONNEL (ONGLET 5)
+    // =========================================================================
+    const products = [
+      {
+        id: 'cuvee-capitaine',
+        name: 'La Bouteille 1L « Cuvée Capitaine »',
+        price: 39.00,
+        badge: '45% Anis • 55% Mauvaise Foi',
+        badgeClass: 'bg-medBlue text-sunGold',
+        desc: 'Notre grand classique ambré distillé sous haute surveillance solaire. Effet louche garanti.',
+        icon: '🍾',
+      },
+      {
+        id: 'siphon-vintage',
+        name: 'Le Siphon de Compétition Vintage',
+        price: 49.00,
+        badge: 'Pression du Sud',
+        badgeClass: 'bg-seaBlue text-paperCream',
+        desc: 'Pour servir une eau de Seltz glacée avec un bruit de bulles qui attire tout le voisinage.',
+        icon: '🫧',
+      },
+      {
+        id: 'kit-18h-port',
+        name: 'Le Kit « 18h00 sur le Port »',
+        price: 64.00,
+        badge: '★ Best-Seller',
+        badgeClass: 'bg-terracotta text-paperCream',
+        desc: 'Contient 2 verres gravés Piv’stillerie, 1 bol d’olives vertes et 1 marinière réglementaire.',
+        icon: '⚓',
+      },
+      {
+        id: 'eau-source-sud',
+        name: 'L’Eau de Source du Sud',
+        price: 12.00,
+        badge: 'Édition Collector',
+        badgeClass: 'bg-oliveGreen text-paperCream',
+        desc: 'Juste de l’eau du robinet, mais embouteillée avec l’accent chantant et trois cigales en fond.',
+        icon: '💧',
+      },
+    ];
+
+    let cart = [];
+
+    function renderProducts() {
+      const grid = document.getElementById('products-grid');
+      grid.innerHTML = products
+        .map(
+          (p) => `
+          <article class="deco-card-sm bg-paperCream rounded-2xl p-5 flex flex-col justify-between hover:-translate-y-1 transition-transform">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="font-oswald font-bold uppercase text-[10px] px-2.5 py-0.5 rounded border-2 border-inkDark ${p.badgeClass}">
+                  ${p.badge}
+                </span>
+                <span class="font-deco text-xl text-terracotta">
+                  CHF ${p.price.toFixed(2)}
+                </span>
+              </div>
+              <div class="h-28 rounded-xl bg-paperWarm border-2 border-medBlue flex items-center justify-center text-5xl mb-4">
+                ${p.icon}
+              </div>
+              <h3 class="font-oswald font-bold uppercase text-lg leading-tight text-medBlue mb-1.5">
+                ${p.name}
+              </h3>
+              <p class="font-lora text-sm text-inkDark/80 leading-snug">
+                ${p.desc}
+              </p>
+            </div>
+            <button
+              onclick="addToCart('${p.id}')"
+              class="retro-btn mt-5 w-full bg-sunGold hover:bg-amber-300 text-medBlue font-oswald font-bold uppercase text-sm py-2.5 rounded-xl"
+            >
+              + Ajouter au panier
+            </button>
+          </article>
+        `
+        )
+        .join('');
+    }
+
+    function addToCart(productId) {
+      const prod = products.find((p) => p.id === productId);
+      if (!prod) return;
+
+      const existing = cart.find((i) => i.id === productId);
+      if (existing) existing.qty += 1;
+      else cart.push({ ...prod, qty: 1 });
+
+      renderCart();
+      showToast(`"${prod.name}" ajouté à votre réserve !`);
+    }
+
+    function updateQty(productId, delta) {
+      const item = cart.find((i) => i.id === productId);
+      if (!item) return;
+      item.qty += delta;
+      if (item.qty <= 0) cart = cart.filter((i) => i.id !== productId);
+      renderCart();
+    }
+
+    function removeFromCart(productId) {
+      cart = cart.filter((i) => i.id !== productId);
+      renderCart();
+    }
+
+    function renderCart() {
+      const container = document.getElementById('cart-items');
+      const totalEl = document.getElementById('cart-total');
+      const badge = document.getElementById('cart-badge');
+      const shopCount = document.getElementById('shop-cart-count');
+      const checkoutBtn = document.getElementById('checkout-btn');
+
+      const totalQty = cart.reduce((sum, i) => sum + i.qty, 0);
+      const totalPrice = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+
+      badge.textContent = totalQty;
+      if (shopCount) shopCount.textContent = totalQty;
+      totalEl.textContent = 'CHF ' + totalPrice.toFixed(2);
+      checkoutBtn.disabled = cart.length === 0;
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 space-y-2">
+            <div class="text-5xl">🥃</div>
+            <p class="font-oswald font-bold uppercase text-base text-medBlue">Votre réserve est vide</p>
+            <p class="text-xs text-inkDark/65">Ajoutez une Cuvée Capitaine ou le Kit 18h00 sur le Port !</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = cart
+        .map(
+          (item) => `
+          <div class="deco-card-sm bg-paperWarm rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div class="min-w-0">
+              <p class="font-oswald font-bold uppercase text-sm text-medBlue truncate">${item.name}</p>
+              <p class="text-xs font-bold text-terracotta">CHF ${(item.price * item.qty).toFixed(2)}</p>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button onclick="updateQty('${item.id}', -1)" class="w-7 h-7 rounded-md bg-paperCream border-2 border-inkDark font-bold hover:bg-sunGold" aria-label="Diminuer">−</button>
+              <span class="w-6 text-center font-oswald font-bold text-sm">${item.qty}</span>
+              <button onclick="updateQty('${item.id}', 1)" class="w-7 h-7 rounded-md bg-paperCream border-2 border-inkDark font-bold hover:bg-sunGold" aria-label="Augmenter">+</button>
+              <button onclick="removeFromCart('${item.id}')" class="ml-1 w-7 h-7 rounded-md bg-terracotta text-paperCream border-2 border-inkDark text-xs font-bold" aria-label="Supprimer">✕</button>
+            </div>
+          </div>
+        `
+        )
+        .join('');
+    }
+
+    function toggleCart(open) {
+      document.getElementById('cart-overlay').classList.toggle('hidden', !open);
+    }
+
+    function openCheckoutModal() {
+      toggleCart(false);
+      document.getElementById('checkout-modal').classList.remove('hidden');
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById('checkout-modal').classList.add('hidden');
+    }
+
+    // =========================================================================
+    // INITIALISATION GLOBALE & REDIMENSIONNEMENT RESPONSIVE
+    // =========================================================================
+    window.addEventListener('DOMContentLoaded', () => {
+      updatePastisSim();
+      renderProducts();
+      renderCart();
+      initPetanque();
+      initAperoRush();
+    });
+
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (document.getElementById('tab-petanque').classList.contains('active')) {
+          resizePetanqueCanvas();
+        }
+        if (document.getElementById('tab-apero-rush').classList.contains('active')) {
+          resizeRushCanvas();
+        }
+      }, 180);
+    });
+  </script>
+</body>
+</html>
